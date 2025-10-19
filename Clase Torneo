@@ -1,1 +1,136 @@
-Class Torneo
+
+import numpy as np
+from datetime import date
+from funciones import *
+
+
+class Torneo: 
+    """
+    Atributos publicos
+    """
+    nombre = str()
+    juego = str()
+    modalidad = int()
+    descripcion = str()
+    dia_i = int()
+    mes_i = int()
+    year_i = int()
+    dia_f = int()
+    mes_f = int()
+    year_f = int()
+    estado = int()
+    partidas : np.ndarray
+
+    
+    
+    """
+    METODO CONSTRUCTOR 
+    Este metodo no recibe parametros para crear un Torneo
+    """
+    def __init__(self):
+        self.nombre = ""
+        self.juego = ""
+        self.modalidad = 0
+        self.descripcion = ""
+        self.dia_i = 0
+        self.mes_i = 0
+        self.year_i = 0
+        self.dia_f = 0
+        self.mes_f = 0
+        self.year_f = 0
+        self.estado = 0
+        """
+        El arreglo partidas esta vacio, se llenara en el 
+        metodo iniciar partidas y es de la clase partida
+        """
+        self.partidas = np.empty(16, dtype=object)
+        
+        
+    
+        
+    """
+    METODO CREAR_TORNEO
+    Este metodo recibe un parametro obligatorio ya verificado por
+    el menu dado que el nombre debe ser unico para cada torneo
+    """
+    def crear_torneo(self,nombre)-> None:
+        self.estado = 1
+        self.nombre = nombre
+        self.juego = input("Ingrese el nombre del juego: ")
+        print("---------------------------")
+        aux = 0
+        self.modalidad = int(input("Ingrese el tipo de modalidad, 1. Individual o 2.Por equipos: "))
+        while( aux == 0):
+            if(self.modalidad != 1 and self.modalidad != 2):
+                print("---------------------------")
+                print("Ingreso una opcion no valida")
+                print("---------------------------")
+                self.modalidad = int(input("Ingrese el tipo de modalidad, 1. Individual o 2.Por equipos: "))
+                print("---------------------------")
+                
+            else:
+                aux = 1
+        print("---------------------------")
+        self.descripcion = input("Ingrese una descripcion breve del Torneo: ")
+        print("---------------------------")
+        print("Fecha de incio del Torneo")
+        while True:
+            dia_i = int(input("Día de inicio: "))
+            mes_i = int(input("Mes de inicio: "))
+            año_i = int(input("Año de inicio: "))
+        
+            r = Verificar_Inicio(dia_i, mes_i, año_i)
+        
+            match r:
+                case 0:
+                    print("Fecha de inicio válida.")
+                    break
+                case 1:
+                    print("Error: el año es anterior al actual.")
+                case 2:
+                    print("Error: el mes no es válido.")
+                case 3:
+                    print("Error: el día no es válido o no existe.")
+                case 4:
+                    print("Error: la fecha es anterior a hoy.")
+            print("Intente de nuevo.\n")
+        
+        print("Fecha de Finalizacion de Torneo")
+        
+        while True:
+            dia_f = int(input("Día de finalización: "))
+            mes_f = int(input("Mes de finalización: "))
+            año_f = int(input("Año de finalización: "))
+            
+            r = Verificar_Final(dia_i, mes_i, año_i, dia_f, mes_f, año_f)
+            
+            match r:
+                case 0:
+                    print("Fecha de finalización válida.")
+                    break
+                case 1:
+                    print("Error: año inválido o anterior a hoy.")
+                case 2:
+                    print("Error: mes inválido.")
+                case 3:
+                    print("Error: día inválido.")
+                case 4:
+                    print("Error: la fecha de finalización es anterior a la de inicio.")
+            print("Intente de nuevo.\n")
+            
+        print("Torneo creado correctamente.\n")
+        
+    def Cambiar_estado(self)-> None:
+        while True:
+            aux = int(input("Ingrese el estado del torneo \n 1.Abierto \n 2.En curso\n 3.Finalizado \n 4.Cancelado: "))
+            
+            match aux:
+                case 1 | 2 | 3 | 4 :
+                    self.estado = aux 
+                    break
+                case _:
+                    print("Error: Ingreso una opcion no valida." )
+            print("Intente de nuevo.\n")
+
+
+            
