@@ -1,1 +1,29 @@
-Class Equipo
+class Equipo:
+    """
+    Atributos publicos
+    """
+    administrador = Jugador()
+    nombre = str
+    puntaje = float
+    jugadores = []
+
+
+    """
+    METODO CONSTRUCTOR
+    este metodo no recibe parametros para crear un equipo
+    """
+
+    def ___init___(self):
+        self.nombre = ""
+
+
+    """
+    METODO CREAR_EQUIPO
+    este metodo se usa para crear un equipo, recibe como parametro 
+    un nombre previamente verificado ya que debe ser unico para cada equipo
+    """
+    def crear_equipo(self, nombre):
+        i = 1
+        self.nombre = nombre
+        for i in range(1,6):
+            self.jugadores = [input(f"Ingrese el jugador numero {i}: ")]
