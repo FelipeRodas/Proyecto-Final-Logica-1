@@ -1,0 +1,128 @@
+import numpy as np
+from Torneo import*
+from Jugador import*
+from funciones import*
+
+class App_Torneo:
+    
+    """
+    Atributos publicos
+    """
+    torneos = np.empty(16, dtype=object)
+    jugadores = np.empty(16, dtype=object)
+    Administradores = np.empty(16, dtype=object)
+    
+    def Principal(self):
+        resp = 0
+        while (resp ==0):
+            print("Bienvenido a la App Torneo")
+            print("---------------------------")
+            print("Ingrese 1. para acceder como Administrador")
+            print("---------------------------")
+            print("Ingrese 2. para acceder como Organizador")
+            print("---------------------------")
+            print("Ingrese 3. para accder como Jugador")
+            print("---------------------------")
+            print("Ingrese 0 para Salir de Sistema")
+            print("---------------------------")
+            opc = int(input("Ingrese una opcion: "))
+            print("---------------------------")
+            opc1 = Verificacion_Opcion(opc)
+            
+            
+            match opc1:
+                case 1:
+                    print("Ingresaste como Administrador")
+                    usuario = input("Ingrese su usuario para acceder al sistema como Administrador: ")
+                    contra =  input("Ingrese la clave para acceder al sistema: ")
+                    print("---------------------------")
+                    print("Haz Ingresado al sistema de Administradores")
+                    print("---------------------------")
+                    print("Ingrese 1. para gestionar Torneos")
+                    print("---------------------------")
+                    print("Ingrese 2. para gestionar Organizadores")
+                    print("---------------------------")
+                    print("Ingese 3. para gestionar Jugadores")
+                    print("---------------------------")
+                    print("Ingrese 0 para Salir de Sistema")
+                    opc2 = int(input("Ingrese una opcion: "))
+                    print("---------------------------")
+                    opc2 = Verificacion_Opcion(opc2)
+                    
+                    match opc2:
+                        case 1:
+                            print("GESTION DE TORNEOS")
+                            print("Ingrese 1. para crear un Torneo")
+                            print("Ingrese 2. para eleminar un Torneo")
+                            print("Ingrese 3. para modificar el estado de un Torneo")
+                            print("Ingrese 0. Si desea salir del sistema")
+                            opc3 = int(input("Ingrese una opcion: "))
+                            opc3 = Verificacion_Opcion(opc3)
+                            match opc3:
+                                case 1:
+                                    print("Creacion de Torneos")
+                                    while True:
+                                        Torneo1 = Torneo()
+                                        nombre = input("Ingrese el nombre del torneo")
+                                        Torneo1.crear_torneo(nombre)
+                                        print("Ingrese 0 o 1 para ingresar otro torneo")
+                                        print("Ingrese 2 o 3 para salir")
+                                        aux = int(input("Ingrese una opcion: "))
+                                        aux = Verificacion_Opcion(aux)
+                                        if (aux == 2 or aux == 3):
+                                            
+                                            break 
+                                case 2:
+                                    print("Eliminacion de Torneo")
+                                    break
+                                case 3:
+                                    print("Modificacion de Torneo")
+                                    break
+                                case 0:
+                                    print("Gracias por usar el sistema de Torneos")
+                                    break
+                                    
+                        
+                        case 2:
+                            print("GESTION DE ORGANIZADORES")
+                            break
+                        case 3:
+                            print("GESTION DE JUGAFORES")
+                            print("Ingrese 1. para agregar jugador")
+                            print("Ingrese 2. para eleminar jugador")
+                            break
+                        case 0:
+                            print("Gracias por usar el sistema de Torneos")
+                            break
+                    
+                
+                case 2:
+                    print("Ingresaste como Organizador")
+                    usuario1 = input("Ingrese su usuario para acceder al sistema como Organizador: ")
+                    contra1 =  input("Ingrese la clave para acceder al sistema: ")
+                    break
+                case 3:
+                    print("Accediste como Jugador")
+                    break
+                case 0: 
+                    print("Gracias por usar el sistema de Torneos")
+                    break
+                    
+                
+                
+mi_torneo = App_Torneo()
+mi_torneo.Principal()
+             
+                
+            
+        
+
+
+
+
+
+
+
+
+
+
