@@ -1,1 +1,47 @@
+import torneo
+import Partida
+import jugador
+import App_torneo
+class organizador:
+	
+
+	nombre = str
+	contraseña = float
+
+#METODO CONSTRUCTOR
+#este metodo recibe como parametros el nombre 
+# y la contraseña del menu
+
+	def  __init__(self, usuario, contraseña):	
+		self.usuario = usuario
+		self.contraseña = contraseña
+
+
+def verificacion (self):
+	for k in range (len(organizador)):
+		if self.usuario == usuario and self.contraseña == contraseña
+			print ("bienvenido al sistema de organizadores")
+	if k > len((organizador)):
+		print ("usuario o contraseña incorrecta")
+			
+def configuracion_torneo(self, participante):
+	torneo.crear_torneo()
+	torneo.Cambiar_estado()
+	
+def resultados_partida(self):
+	print("se registro los resultados")
+	
+aux = 0
+i = 0
+n = jugador.lenght()
+def mostrar_resultados(self):
+		for i in range (n-1):
+			for j in range(n-1-i):
+				if jugador.puntuacion[j]> jugador.puntuacion[j+1]:
+					aux = jugador [j]
+					jugador [j] = jugador [j+1]
+					jugador[j+1] =  aux
+		return jugador
+
+
 
