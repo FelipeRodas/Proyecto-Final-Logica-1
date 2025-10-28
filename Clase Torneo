@@ -1,6 +1,4 @@
-
 import numpy as np
-from datetime import date
 from funciones import *
 
 
@@ -78,6 +76,7 @@ class Torneo:
             dia_i = int(input("Día de inicio: "))
             mes_i = int(input("Mes de inicio: "))
             año_i = int(input("Año de inicio: "))
+            print("---------------------------")
         
             r = Verificar_Inicio(dia_i, mes_i, año_i)
         
@@ -94,13 +93,15 @@ class Torneo:
                 case 4:
                     print("Error: la fecha es anterior a hoy.")
             print("Intente de nuevo.\n")
+            print("---------------------------")
         
         print("Fecha de Finalizacion de Torneo")
-        
+        print("---------------------------")
         while True:
             dia_f = int(input("Día de finalización: "))
             mes_f = int(input("Mes de finalización: "))
             año_f = int(input("Año de finalización: "))
+            print("---------------------------")
             
             r = Verificar_Final(dia_i, mes_i, año_i, dia_f, mes_f, año_f)
             
@@ -117,20 +118,34 @@ class Torneo:
                 case 4:
                     print("Error: la fecha de finalización es anterior a la de inicio.")
             print("Intente de nuevo.\n")
+            print("---------------------------")
             
         print("Torneo creado correctamente.\n")
         
     def Cambiar_estado(self)-> None:
+        
         while True:
-            aux = int(input("Ingrese el estado del torneo \n 1.Abierto \n 2.En curso\n 3.Finalizado \n 4.Cancelado: "))
+            aux = input("Ingrese el estado del torneo \n 0.Abierto \n 1.En curso\n 2.Finalizado \n 3.Cancelado: ")
             
             match aux:
-                case 1 | 2 | 3 | 4 :
-                    self.estado = aux 
+                case "0":
+                    self.estado = int(aux)
+                    print("Se ha modificado el estado del Torneo: ABIERTO")
                     break
+                case "1":
+                    self.estado = int(aux)
+                    print("Se ha modificado el estado del Torne: EN CURSO")
+                    break
+                case "2":
+                    self.estado = int(aux)
+                    print("Se ha modificado el estado del Torne: FINALIZADO")
+                    break
+                case "3":
+                    self.estado = int(aux)
+                    print("Se ha modificado el estado del Torne: CANCELADO")
+                    
                 case _:
                     print("Error: Ingreso una opcion no valida." )
             print("Intente de nuevo.\n")
-
 
             
