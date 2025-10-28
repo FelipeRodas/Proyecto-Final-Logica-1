@@ -1,1 +1,55 @@
+import numpy as np
+import torneo
+import Jugador
+import Organizador
+import Equipo
+import App_Torneo
 
+class Administrador:
+    """
+    ATRIBUTOS PÚBLICOS
+    """
+
+    usuario = str
+    password = str
+    """
+    METODO CONSTRUCTOR
+    """
+    
+    def __init__(self,usuario: str = "",password: str = ""):
+        self.usuario = usuario
+        self.password = password 
+
+    """
+    METODO VERIFICACIÓN
+    Solicita usuario y password para ingresar al sistema de administadores.
+    """
+
+    def verificacion (self):
+        for k in range (len(organizador)):
+            if self.usuario == usuario and self.password == password
+                print ("bienvenido al sistema de organizadores")
+        if k > len((organizador)):
+            print ("usuario o password incorrecta")
+
+    """
+    METODO GESTIONAR_TORNEOS
+    Este metodo permite al administrador hacer manejo de los torneos ya creados
+    """
+
+    def GESTIONAR_TORNEOS
+        print("---Gestión de torneos---\n")
+        opc = input("""
+        Ingrese la opción que desea hacer:
+        1. Crear un torneo
+        2. Eliminar un torneo
+        """)
+        match opc:
+            case "1":
+                nombre = input("Ingrese el nombre del torneo")
+                torneo.crear_torneo(nombre)
+                break
+            case "2":
+                #falta metodo de eliminación de torneos.
+
+    def 
