@@ -5,7 +5,7 @@ class Equipo:
     """
     Atributos publicos
     """
-    administrador = Jugador()
+    coordinador = Jugador()
     nombre = str
     puntaje = float
     jugadores = np.ndarray 
@@ -18,7 +18,7 @@ class Equipo:
 
     def ___init___(self):
         self.nombre = ""
-        self.administrador = None
+        self.coordinador = None
         self.jugadores = np.empty
         self.puntaje = 0.0
 
