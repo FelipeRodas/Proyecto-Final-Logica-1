@@ -2,16 +2,16 @@ import torneo
 import Partida
 import jugador
 import App_torneo
+
 class organizador:
 	
-
 	nombre = str
 	contraseña = float
-
-#METODO CONSTRUCTOR
-#este metodo recibe como parametros el nombre 
-# y la contraseña del menu
-
+"""
+METODO CONSTRUCTOR
+este metodo recibe como parametros el nombre 
+y la contraseña del menu
+"""
 	def  __init__(self, usuario, contraseña):	
 		self.usuario = usuario
 		self.contraseña = contraseña
