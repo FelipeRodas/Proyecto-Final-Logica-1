@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class Equipo:
     """
     Atributos publicos
@@ -5,7 +8,7 @@ class Equipo:
     administrador = Jugador()
     nombre = str
     puntaje = float
-    jugadores = []
+    jugadores = np.ndarray 
 
 
     """
@@ -15,15 +18,73 @@ class Equipo:
 
     def ___init___(self):
         self.nombre = ""
+        self.administrador = None
+        self.jugadores = np.empty
+        self.puntaje = 0.0
+
 
 
     """
     METODO CREAR_EQUIPO
-    este metodo se usa para crear un equipo, recibe como parametro 
-    un nombre previamente verificado ya que debe ser unico para cada equipo
+    este metodo se usa para crear un equipo, la verificacion de que el nombre sea unico se realiza desde la app
     """
-    def crear_equipo(self, nombre):
-        i = 1
-        self.nombre = nombre
-        for i in range(1,6):
-            self.jugadores = [input(f"Ingrese el jugador numero {i}: ")]
+    def crear_equipo(self) -> None:
+        print("Creación de equipo.\n")
+        self.nombre = input("Ingrese el nombre del equipo: ")
+        print(f"\nEl equipo {self.nombre} ha sido creado. ")
+
+    """
+    METODO AGREGAR_JUGADOR
+    Permite agregar un jugador
+    """
+    def agregar_jugador(self, cont = int) -> None:
+       
+        jugador_agregado = str
+
+        print("Agregar un jugador.\n")
+
+        if jugador == None:
+            print("Ingrese un jugador.\n")
+        
+        if jugador in self.jugadores:
+            print("ESte jugador ya está en el equipo. \n")
+        
+        if len(self.jugadores) >= 5:
+            print("El equipo ya cuenta con 5 jugadores. \n")
+
+        if   len(self.jugadores) < 5:  
+            jugador_agregado = input("Ingrese el nombre de su jugador: ")
+            
+            for i in range(0, len(self.jugadores)):
+                if self.jugadores[i] == None:
+                    self.jugadores[i] = jugador_agregado
+                    cont += 1
+                    break
+            return cont
+        
+    """
+    METODO ELIMINAR_JUGADOR 
+    elimina un jugador, si es el coordinador lo deja vacio.
+    """
+
+    def eliminar_jugador(self, cont = int) -> int:
+        
+        jugador_eliminado = str
+        flag = bool
+
+        print("\Elimina un jugador.\n")
+        
+        jugador_eliminado = input("Ingrese el jugador a eliminar:")
+        flag = False
+
+        for i in range(0, cont):
+            if self.jugadores[i] == jugador_eliminado:
+                flag = True
+                self.jugadores[i] == None
+                cont -= 1
+                break
+
+        if flag:
+            print("Jugador eliminado. \n")
+        else:
+            print("Dato no encontrado. \n")
