@@ -18,6 +18,277 @@ class App_Torneo:
     def __init__(self):
         self.n_torneos = 0
         self.n_jugadores = 0
+        
+    def crear_torneo(self):
+        if self.n_torneos == 0:
+            Torneo1 = Torneo()
+            nombre = input("Ingrese el nombre del torneo: ")
+            Torneo1.pedir_datos(nombre)
+            self.torneos[self.n_torneos] = Torneo1
+            self.n_torneos += 1
+
+        else:
+            while True:
+                Torneo1 = Torneo()
+                nombre = input("Ingrese el nombre del torneo: ")
+                flag = False
+
+                # Recorre solo los torneos ya creados
+                for j in range(self.n_torneos):
+                    if self.torneos[j].nombre == nombre:
+                        flag = True
+                        break
+
+                if flag:
+                    print("---------------------------")
+                    print("El nombre ingresado ya está registrado en otro torneo")
+                    print("---------------------------")
+                else:
+                    break
+
+            Torneo1.pedir_datos(nombre)
+            self.torneos[self.n_torneos] = Torneo1
+            self.n_torneos += 1
+            
+    def eliminar_torneo(self):
+        nombre = input("Ingrese el nombre del torneo que desea eliminar: ")
+        flag = False
+        pos = -1
+        
+        # Buscar el torneo por nombre
+        for j in range(self.n_torneos):
+            if self.torneos[j].nombre == nombre:
+                flag = True
+                pos = j
+                break
+        
+        if not flag:
+            print("---------------------------")
+            print("No existe un torneo con ese nombre")
+            print("---------------------------")
+        else:
+            # Desplazar los torneos siguientes una posición hacia la izquierda
+            for k in range(pos, self.n_torneos - 1):
+                self.torneos[k] = self.torneos[k + 1]
+        
+            # Vaciar la última posición, porque la ultima posicion se duplica
+            self.torneos[self.n_torneos - 1] = None 
+        
+            # Actualizar contador
+            self.n_torneos -= 1
+            print("Torneo eliminado correctamente")
+            print("---------------------------")
+    
+    def crear_jugador(self):
+        if self.n_jugadores == 0:
+            Jugador1 = Jugador()
+            nickname = input("Ingrese el nickname del jugador: ")
+            Jugador1.pedir_datos(nickname)
+            self.jugadores[self.n_jugadores] = Jugador1
+            self.n_jugadores += 1
+
+        else:
+            while True:
+                Jugador1 = Jugador()
+                nickname = input("Ingrese el nickname del jugador: ")
+                flag = False
+
+                # Recorre solo los Jugadores ya creados
+                for j in range(self.n_jugadores):
+                    if self.jugadores[j].nickname == nickname:
+                        flag = True
+                        break
+
+                if flag:
+                    print("---------------------------")
+                    print("El nickname ingresado ya está registrado en otro jugador")
+                    print("---------------------------")
+                else:
+                    break
+
+            Jugador1.pedir_datos(nickname)
+            self.jugadores[self.n_jugadores] = Jugador1
+            self.n_jugadores += 1
+            
+    def eliminar_jugador(self):
+        nickname = input("Ingrese el nickname del Jugador que desea eliminar: ")
+        flag = False
+        pos = -1
+        
+        # Buscar el Jugador por nickname
+        for j in range(self.n_jugadores):
+            if self.jugadores[j].nickname == nickname :
+                flag = True
+                pos = j
+                break
+        
+        if not flag:
+            print("---------------------------")
+            print("No existe un Jugador con ese nickname")
+            print("---------------------------")
+        else:
+            # Desplazar los Jugadores siguientes una posición hacia la izquierda
+            for k in range(pos, self.n_jugadores - 1):
+                self.jugadores[k] = self.jugadores[k + 1]
+        
+            # Vaciar la última posición, porque la ultima posicion se duplica
+            self.jugadores[self.n_jugadores - 1] = None 
+        
+            # Actualizar contador
+            self.n_jugadores -= 1
+            print("Jugador eliminado correctamente")
+            print("---------------------------")
+    
+    def menu_administrador(self):
+        print("Ingresaste como Administrador")
+        usuario = input("Ingrese su usuario para acceder al sistema como Administrador: ")
+        contra =  input("Ingrese la clave para acceder al sistema: ")
+        print("---------------------------")
+        print("Haz Ingresado al sistema de Administradores")
+        print("Ingrese 1. para gestionar Torneos")
+        print("Ingrese 2. para gestionar Organizadores")
+        print("Ingese 3. para gestionar Jugadores")
+        print("Ingrese 0 para Salir de Sistema")
+        opc2 = input("Ingrese una opcion: ")
+        print("---------------------------")
+        opc2 = Verificacion_Opcion(opc2)
+        
+        match opc2:
+            case "1":
+                print("GESTION DE TORNEOS")
+                print("Ingrese 1. para crear un Torneo")
+                print("Ingrese 2. para eleminar un Torneo")
+                print("Ingrese 3. para modificar el estado de un Torneo")
+                print("Ingrese 0. Si desea salir del sistema")
+                opc3 = input("Ingrese una opcion: ")
+                opc3 = Verificacion_Opcion(opc3)
+                match opc3:
+                    case "1":
+                        print("Creacion de Torneos")
+                        for i in range(0, 20, 1):
+                            self.crear_torneo()
+                            print("Ingrese 0 o 1 para ingresar otro torneo")
+                            print("Ingrese 2 o 3 para salir")
+                            aux = input("Ingrese una opcion: ")
+                            aux = Verificacion_Opcion(aux)
+                            if (aux == "2" or aux == "3"):  
+                                break
+                    case "2":
+                        print("Eliminacion de Torneo")
+                        while True:
+                            self.eliminar_torneo()
+                            print("Ingrese 0 o 1 para eliminar otro torneo")
+                            print("Ingrese 2 o 3 para salir")
+                            aux = input("Ingrese una opcion: ")
+                            aux = Verificacion_Opcion(aux)
+                            if (aux == "2" or aux == "3"):  
+                                break
+
+                    case "3":
+                        print("Modificacion de Torneo")
+                        while True:
+                            nombre = input("Ingrese el nombre del torneo que desea modificar: ")
+                            flag = False
+                            pos = 0
+                            # Buscar el torneo por nombre
+                            for j in range(self.n_torneos):
+                                if self.torneos[j].nombre == nombre:
+                                    flag = True
+                                    pos = j
+                                    break
+                            if flag:
+                                self.torneos[j].Cambiar_estado()
+                            else:
+                                print("---------------------------")
+                                print("No existe un torneo con ese nombre")
+                                print("---------------------------")
+                            print("Ingrese 0 o 1 para modificar otro torneo")
+                            print("Ingrese 2 o 3 para salir")
+                            aux = input("Ingrese una opcion: ")
+                            aux = Verificacion_Opcion(aux)
+                            if (aux == "2" or aux == "3"):  
+                                break
+                    case "0":
+                        print("Gracias por usar el sistema de Torneos")
+                        
+            case "2":
+                print("GESTION DE ORGANIZADORES")
+                print("¡DISPONIBLE EN PROXIMAS ACTUALIZACIONES!")
+
+            case "3":
+                print("GESTION DE JUGADORES")
+                print("Ingrese  1  para agregar jugador")
+                print("Ingrese 2 o 3 para eliminar jugador")
+                print("Ingrese 0 Si desea salir del sistema")
+                opc = input("Ingrese una opcion: ")
+                opc = Verificacion_Opcion(opc)
+                match opc:
+                    case  "1":
+                        print("Creacion de jugador")
+                        for i in range(0, 50, 1):
+                            
+                            self.crear_jugador()    
+                            print("Ingrese 0 o 1 para ingresar otro Jugador")
+                            print("Ingrese 2 o 3 para salir")
+                            aux = input("Ingrese una opcion: ")
+                            aux = Verificacion_Opcion(aux)
+                            if (aux == "2" or aux == "3"):  
+                                break 
+                                
+                    case "2" | "3" :
+                        print("Eliminacion de jugador")
+                        while True:
+                            self.eliminar_jugador()
+                            print("Ingrese 0 o 1 para eliminar otro Jugador")
+                            print("Ingrese 2 o 3 para salir")
+                            aux = input("Ingrese una opcion: ")
+                            aux = Verificacion_Opcion(aux)
+                            if (aux == "2" or aux == "3"):  
+                                break  
+                            
+                    case "0":
+                        print("Gracias por usar el sistema de Torneos")
+                        
+            
+            case "0":
+                print("Gracias por usar el sistema de Torneos")
+
+    def menu_organizador(self):
+        print("Ingresaste como Organizador")
+        usuario1 = input("Ingrese su usuario para acceder al sistema como Organizador: ")
+        contra1 =  input("Ingrese la clave para acceder al sistema: ")
+        print("---------------------------")
+        print("Haz Ingresado al sistema de Organizadores")
+        print("Ingrese 1. para gestionar Torneos")
+        print("Ingrese 2. para gestionar Jugadores")
+        print("Ingrese 0 o 3 para Salir de Sistema")
+        opc2 = input("Ingrese una opcion: ")
+        print("---------------------------")
+        opc2 = Verificacion_Opcion(opc2)
+        match opc2:
+            case "1":
+                print("GESTION DE TORNEOS")
+                print("Ingrese 1. para crear un Torneo")
+                print("Ingrese 2. para eleminar un Torneo")
+                print("Ingrese 3. para modificar el estado de un Torneo")
+                print("Ingrese 0. Si desea salir del sistema")
+                opc3 = input("Ingrese una opcion: ")
+                opc3 = Verificacion_Opcion(opc3)
+                match opc3:
+                    case "1":
+                        break
+                    case "2":
+                        break
+
+            case "2":
+                print("GESTION DE JUGADORES")
+
+                
+            case "0" | "3":
+                print("Gracias por usar el sistema de Torneos")
+                break
+                
+        
     
     def Principal(self):
         resp = 0
@@ -35,277 +306,14 @@ class App_Torneo:
             
             match opc1:
                 case "1":
-                    print("Ingresaste como Administrador")
-                    usuario = input("Ingrese su usuario para acceder al sistema como Administrador: ")
-                    contra =  input("Ingrese la clave para acceder al sistema: ")
-                    print("---------------------------")
-                    print("Haz Ingresado al sistema de Administradores")
-                    print("Ingrese 1. para gestionar Torneos")
-                    print("Ingrese 2. para gestionar Organizadores")
-                    print("Ingese 3. para gestionar Jugadores")
-                    print("Ingrese 0 para Salir de Sistema")
-                    opc2 = input("Ingrese una opcion: ")
-                    print("---------------------------")
-                    opc2 = Verificacion_Opcion(opc2)
-                    
-                    match opc2:
-                        case "1":
-                            print("GESTION DE TORNEOS")
-                            print("Ingrese 1. para crear un Torneo")
-                            print("Ingrese 2. para eleminar un Torneo")
-                            print("Ingrese 3. para modificar el estado de un Torneo")
-                            print("Ingrese 0. Si desea salir del sistema")
-                            opc3 = input("Ingrese una opcion: ")
-                            opc3 = Verificacion_Opcion(opc3)
-                            match opc3:
-                                case "1":
-                                    print("Creacion de Torneos")
-                                    for i in range(0, 20, 1):
-                                        if self.n_torneos == 0:
-                                            Torneo1 = Torneo()
-                                            nombre = input("Ingrese el nombre del torneo: ")
-                                            Torneo1.crear_torneo(nombre)
-                                            self.torneos[self.n_torneos] = Torneo1
-                                            self.n_torneos += 1
-                                    
-                                        else:
-                                            while True:
-                                                Torneo1 = Torneo()
-                                                nombre = input("Ingrese el nombre del torneo: ")
-                                                flag = False
-                                    
-                                                # Recorre solo los torneos ya creados
-                                                for j in range(self.n_torneos):
-                                                    if self.torneos[j].nombre == nombre:
-                                                        flag = True
-                                                        break
-                                    
-                                                if flag:
-                                                    print("---------------------------")
-                                                    print("El nombre ingresado ya está registrado en otro torneo")
-                                                    print("---------------------------")
-                                                else:
-                                                    break
-                                    
-                                            Torneo1.crear_torneo(nombre)
-                                            self.torneos[self.n_torneos] = Torneo1
-                                            self.n_torneos += 1
-                                        print("Ingrese 0 o 1 para ingresar otro torneo")
-                                        print("Ingrese 2 o 3 para salir")
-                                        aux = input("Ingrese una opcion: ")
-                                        aux = Verificacion_Opcion(aux)
-                                        if (aux == "2" or aux == "3"):  
-                                            break
-                                    break
-                                case "2":
-                                    print("Eliminacion de Torneo")
-                                    while True:
-                                        nombre = input("Ingrese el nombre del torneo que desea eliminar: ")
-                                        flag = False
-                                        pos = -1
-                                        
-                                        # Buscar el torneo por nombre
-                                        for j in range(self.n_torneos):
-                                            if self.torneos[j].nombre == nombre:
-                                                flag = True
-                                                pos = j
-                                                break
-                                        
-                                        if not flag:
-                                            print("---------------------------")
-                                            print("No existe un torneo con ese nombre")
-                                            print("---------------------------")
-                                        else:
-                                            # Desplazar los torneos siguientes una posición hacia la izquierda
-                                            for k in range(pos, self.n_torneos - 1):
-                                                self.torneos[k] = self.torneos[k + 1]
-                                        
-                                            # Vaciar la última posición, porque la ultima posicion se duplica
-                                            self.torneos[self.n_torneos - 1] = None 
-                                        
-                                            # Actualizar contador
-                                            self.n_torneos -= 1
-                                            print("Torneo eliminado correctamente")
-                                            print("---------------------------")
-                                        print("Ingrese 0 o 1 para eliminar otro torneo")
-                                        print("Ingrese 2 o 3 para salir")
-                                        aux = input("Ingrese una opcion: ")
-                                        aux = Verificacion_Opcion(aux)
-                                        if (aux == "2" or aux == "3"):  
-                                            break
-                                    break
-                
-                                case "3":
-                                    print("Modificacion de Torneo")
-                                    while True:
-                                        nombre = input("Ingrese el nombre del torneo que desea modificar: ")
-                                        flag = False
-                                        pos = 0
-                                        # Buscar el torneo por nombre
-                                        for j in range(self.n_torneos):
-                                            if self.torneos[j].nombre == nombre:
-                                                flag = True
-                                                pos = j
-                                                break
-                                        if flag:
-                                            self.torneos[j].Cambiar_estado()
-                                        else:
-                                            print("---------------------------")
-                                            print("No existe un torneo con ese nombre")
-                                            print("---------------------------")
-                                        print("Ingrese 0 o 1 para modificar otro torneo")
-                                        print("Ingrese 2 o 3 para salir")
-                                        aux = input("Ingrese una opcion: ")
-                                        aux = Verificacion_Opcion(aux)
-                                        if (aux == "2" or aux == "3"):  
-                                            break
-                                    break
-                                                 
-                                case "0":
-                                    print("Gracias por usar el sistema de Torneos")
-                                    break
-                                    
-                            break
-                        case "2":
-                            print("GESTION DE ORGANIZADORES")
-                            print("¡DISPONIBLE EN PROXIMAS ACTUALIZACIONES!")
-                            break
-                        case "3":
-                            print("GESTION DE JUGADORES")
-                            print("Ingrese  1  para agregar jugador")
-                            print("Ingrese 2 o 3 para eliminar jugador")
-                            print("Ingrese 0 Si desea salir del sistema")
-                            opc = input("Ingrese una opcion: ")
-                            opc = Verificacion_Opcion(opc)
-                            match opc:
-                                case  "1":
-                                    print("Creacion de jugador")
-                                    for i in range(0, 50, 1):
-                                        if self.n_jugadores == 0:
-                                            Jugador1 = Jugador()
-                                            nickname = input("Ingrese el nickname del jugador: ")
-                                            Jugador1.crear_jugador(nickname)
-                                            self.jugadores[self.n_jugadores] = Jugador1
-                                            self.n_jugadores += 1
-                                    
-                                        else:
-                                            while True:
-                                                Jugador1 = Jugador()
-                                                nickname = input("Ingrese el nickname del jugador: ")
-                                                flag = False
-                                    
-                                                # Recorre solo los Jugadores ya creados
-                                                for j in range(self.n_jugadores):
-                                                    if self.jugadores[j].nickname == nickname:
-                                                        flag = True
-                                                        break
-                                    
-                                                if flag:
-                                                    print("---------------------------")
-                                                    print("El nickname ingresado ya está registrado en otro jugador")
-                                                    print("---------------------------")
-                                                else:
-                                                    break
-                                    
-                                            Jugador1.crear_jugador(nickname)
-                                            self.jugadores[self.n_jugadores] = Jugador1
-                                            self.n_jugadores += 1
-                                            
-                                        print("Ingrese 0 o 1 para ingresar otro Jugador")
-                                        print("Ingrese 2 o 3 para salir")
-                                        aux = input("Ingrese una opcion: ")
-                                        aux = Verificacion_Opcion(aux)
-                                        if (aux == "2" or aux == "3"):  
-                                            break 
-                                    break       
-                                            
-                                case "2" | "3" :
-                                    print("Eliminacion de jugador")
-                                    while True:
-                                        nickname = input("Ingrese el nickname del Jugador que desea eliminar: ")
-                                        flag = False
-                                        pos = -1
-                                        
-                                        # Buscar el Jugador por nickname
-                                        for j in range(self.n_jugadores):
-                                            if self.jugadores[j].nickname == nickname :
-                                                flag = True
-                                                pos = j
-                                                break
-                                        
-                                        if not flag:
-                                            print("---------------------------")
-                                            print("No existe un Jugador con ese nickname")
-                                            print("---------------------------")
-                                        else:
-                                            # Desplazar los Jugadores siguientes una posición hacia la izquierda
-                                            for k in range(pos, self.n_jugadores - 1):
-                                                self.jugadores[k] = self.jugadores[k + 1]
-                                        
-                                            # Vaciar la última posición, porque la ultima posicion se duplica
-                                            self.jugadores[self.n_jugadores - 1] = None 
-                                        
-                                            # Actualizar contador
-                                            self.n_jugadores -= 1
-                                            print("Jugador eliminado correctamente")
-                                            print("---------------------------")
-                                        print("Ingrese 0 o 1 para eliminar otro Jugador")
-                                        print("Ingrese 2 o 3 para salir")
-                                        aux = input("Ingrese una opcion: ")
-                                        aux = Verificacion_Opcion(aux)
-                                        if (aux == "2" or aux == "3"):  
-                                            break  
-                                        
-                                    break
-                                case "0":
-                                    print("Gracias por usar el sistema de Torneos")
-                                    break
-                                    
-                        
-                        case "0":
-                            print("Gracias por usar el sistema de Torneos")
-                            break
-                    break
+                    self.menu_administrador()
+
                 case "2":
-                    print("Ingresaste como Organizador")
-                    usuario1 = input("Ingrese su usuario para acceder al sistema como Organizador: ")
-                    contra1 =  input("Ingrese la clave para acceder al sistema: ")
-                    print("---------------------------")
-                    print("Haz Ingresado al sistema de Organizadores")
-                    print("Ingrese 1. para gestionar Torneos")
-                    print("Ingrese 2. para gestionar Jugadores")
-                    print("Ingrese 0 o 3 para Salir de Sistema")
-                    opc2 = input("Ingrese una opcion: ")
-                    print("---------------------------")
-                    opc2 = Verificacion_Opcion(opc2)
-                    match opc2:
-                        case "1":
-                            print("GESTION DE TORNEOS")
-                            print("Ingrese 1. para crear un Torneo")
-                            print("Ingrese 2. para eleminar un Torneo")
-                            print("Ingrese 3. para modificar el estado de un Torneo")
-                            print("Ingrese 0. Si desea salir del sistema")
-                            opc3 = input("Ingrese una opcion: ")
-                            opc3 = Verificacion_Opcion(opc3)
-                            match opc3:
-                                case "1":
-                                    break
-                                case "2":
-                                    break
-                            break        
-                        case "2":
-                            print("GESTION DE JUGADORES")
-                            break
-                            
-                        case "0" | "3":
-                            print("Gracias por usar el sistema de Torneos")
-                            break
-                            
-                        
-                    break
+                    self.menu_organizador()
+
                 case "3":
                     print("Accediste como Jugador")
-                    break
+
                 case "0": 
                     print("Gracias por usar el sistema de Torneos")
                     break
@@ -314,4 +322,3 @@ class App_Torneo:
                 
 mi_torneo = App_Torneo()
 mi_torneo.Principal()
-
