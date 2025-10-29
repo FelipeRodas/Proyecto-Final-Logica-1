@@ -36,7 +36,7 @@ class Jugador:
     Este metodo recibe como parametro el nickname y su funcion es 
     registrar los datos del jugador en sus respectivos atributos
     """
-    def crear_jugador(self,nickname)-> None:
+    def pedir_datos(self,nickname)-> None:
         self.nickname = nickname
         self.nombre = input("Ingrese el nombre del jugador: ")
         self.documento = input("Ingrese el documento de identidad: ")
