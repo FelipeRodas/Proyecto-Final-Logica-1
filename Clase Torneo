@@ -47,11 +47,11 @@ class Torneo:
     
         
     """
-    METODO CREAR_TORNEO
+    METODO PEDIR_DATOS
     Este metodo recibe un parametro obligatorio ya verificado por
     el menu dado que el nombre debe ser unico para cada torneo
     """
-    def crear_torneo(self,nombre)-> None:
+    def pedir_datos(self,nombre)-> None:
         self.estado = 1
         self.nombre = nombre
         self.juego = input("Ingrese el nombre del juego: ")
@@ -147,5 +147,6 @@ class Torneo:
                 case _:
                     print("Error: Ingreso una opcion no valida." )
             print("Intente de nuevo.\n")
+        
 
             
