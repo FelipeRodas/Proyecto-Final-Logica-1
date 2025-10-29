@@ -1,4 +1,5 @@
 import numpy as np
+import Jugador
 
 
 class Equipo:
@@ -43,10 +44,10 @@ class Equipo:
 
         print("Agregar un jugador.\n")
 
-        if jugador == None:
+        if jugador_agregado == None:
             print("Ingrese un jugador.\n")
         
-        if jugador in self.jugadores:
+        if jugador_agregado in self.jugadores:
             print("ESte jugador ya está en el equipo. \n")
         
         if len(self.jugadores) >= 5:
