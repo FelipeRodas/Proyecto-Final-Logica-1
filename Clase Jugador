@@ -6,6 +6,7 @@ class Jugador:
     Atributos publicos
     """
     nombre = str()
+    contra = str()
     documento = str()
     correo = str()
     dia_n = int()
@@ -14,6 +15,7 @@ class Jugador:
     nickname = str()#Apodo unico para cada jugador
     puntaje = float()
     name_T = str()#Nombre del torneo al que pertenece
+    coordinador = str()# 1 si es coordinador de un equipo, 0 si no lo es
     
     
     """
@@ -21,24 +23,25 @@ class Jugador:
     Este metodo no recibe parametros para crear un Jugador
     """
     def __init__(self):
-        self.nombre = " "
-        self.documento =  " "
+        self.nombre = ""
+        self.documento =  ""
         self.correo = " "
         self.dia_n = 0
         self.mes_n = 0
         self.year_n = 0
-        self.nickname = " "
+        self.nickname = ""
         self.puntaje = 0.0
         self.name_T = " "
-        
+        self.coordinador = "0"
     """
-    METODO CREAR_JUGADOR
+    METODO PEDIR_DATOS
     Este metodo recibe como parametro el nickname y su funcion es 
     registrar los datos del jugador en sus respectivos atributos
     """
     def pedir_datos(self,nickname)-> None:
         self.nickname = nickname
         self.nombre = input("Ingrese el nombre del jugador: ")
+        self.contra = input("Ingrese la clave para acceder al sistema: ")
         self.documento = input("Ingrese el documento de identidad: ")
         self.correo = input("Ingrese el correo del jugador: ")
         while True:
@@ -63,3 +66,5 @@ class Jugador:
             print("---------------------------")
             
         self.name_T = input("Ingrese el nombre del Torneo donde quiere participar: ")
+        
+        
