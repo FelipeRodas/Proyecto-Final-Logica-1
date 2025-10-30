@@ -8,7 +8,7 @@ class Torneo:
     """
     nombre = str()
     juego = str()
-    modalidad = int()
+    modalidad = str()
     descripcion = str()
     dia_i = int()
     mes_i = int()
@@ -17,8 +17,7 @@ class Torneo:
     mes_f = int()
     year_f = int()
     estado = int()
-    partidas : np.ndarray
-
+    partidas = np.ndarray
     
     
     """
@@ -41,7 +40,7 @@ class Torneo:
         El arreglo partidas esta vacio, se llenara en el 
         metodo iniciar partidas y es de la clase partida
         """
-        self.partidas = np.empty(16, dtype=object)
+        self.partidas = np.full((16), fill_value=None, dtype=object)
         
         
     
@@ -57,17 +56,18 @@ class Torneo:
         self.juego = input("Ingrese el nombre del juego: ")
         print("---------------------------")
         aux = 0
-        self.modalidad = int(input("Ingrese el tipo de modalidad, 1. Individual o 2.Por equipos: "))
+        self.modalidad = input("Ingrese el tipo de modalidad, 1. Individual o 2.Por equipos: ")
         while( aux == 0):
-            if(self.modalidad != 1 and self.modalidad != 2):
+            if(self.modalidad != "1" and self.modalidad != "2"):
                 print("---------------------------")
                 print("Ingreso una opcion no valida")
                 print("---------------------------")
-                self.modalidad = int(input("Ingrese el tipo de modalidad, 1. Individual o 2.Por equipos: "))
+                self.modalidad = input("Ingrese el tipo de modalidad, 1. Individual o 2.Por equipos: ")
                 print("---------------------------")
                 
             else:
                 aux = 1
+                
         print("---------------------------")
         self.descripcion = input("Ingrese una descripcion breve del Torneo: ")
         print("---------------------------")
@@ -122,6 +122,9 @@ class Torneo:
             
         print("Torneo creado correctamente.\n")
         
+        
+        
+        
     def Cambiar_estado(self)-> None:
         
         while True:
@@ -147,6 +150,7 @@ class Torneo:
                 case _:
                     print("Error: Ingreso una opcion no valida." )
             print("Intente de nuevo.\n")
+        
         
 
             
