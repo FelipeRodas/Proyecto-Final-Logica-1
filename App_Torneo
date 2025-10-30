@@ -1,6 +1,6 @@
 import numpy as np
-from Torneo import*
-from Jugador import*
+from Torneo import Torneo
+from Jugador import Jugador
 from funciones import*
 
 class App_Torneo:
@@ -10,14 +10,18 @@ class App_Torneo:
     """
     n_torneos = int()
     n_jugadores = int()
-    torneos = np.empty(20, dtype=object)
-    jugadores = np.empty(50, dtype=object)
-    Administradores = np.empty(5, dtype=object)
-    Organizadores = np.empty(10,dtype=object)
+    torneos = np.ndarray 
+    jugadores = np.ndarray 
+    Administradores = np.ndarray 
+    Organizadores = np.ndarray 
     
     def __init__(self):
         self.n_torneos = 0
         self.n_jugadores = 0
+        self.torneos = np.full((20), fill_value=None, dtype=object)
+        self.jugadores = np.full((20), fill_value=None, dtype=object)
+        self.Administradores = np.full((5), fill_value=None, dtype=object)
+        self.Organizadores = np.full((10), fill_value=None, dtype=object)
         
     def crear_torneo(self):
         if self.n_torneos == 0:
@@ -276,20 +280,120 @@ class App_Torneo:
                 opc3 = Verificacion_Opcion(opc3)
                 match opc3:
                     case "1":
-                        break
+                        print("Creacion de Torneos")
+                        for i in range(0, 20, 1):
+                            self.crear_torneo()
+                            print("Ingrese 0 o 1 para ingresar otro torneo")
+                            print("Ingrese 2 o 3 para salir")
+                            aux = input("Ingrese una opcion: ")
+                            aux = Verificacion_Opcion(aux)
+                            if (aux == "2" or aux == "3"):  
+                                break
                     case "2":
-                        break
+                        print("Eliminacion de Torneo")
+                        while True:
+                            self.eliminar_torneo()
+                            print("Ingrese 0 o 1 para eliminar otro torneo")
+                            print("Ingrese 2 o 3 para salir")
+                            aux = input("Ingrese una opcion: ")
+                            aux = Verificacion_Opcion(aux)
+                            if (aux == "2" or aux == "3"):  
+                                break
+                    case "3":
+                        print("Modificacion de Torneo")
+                        while True:
+                            nombre = input("Ingrese el nombre del torneo que desea modificar: ")
+                            flag = False
+                            pos = 0
+                            # Buscar el torneo por nombre
+                            for j in range(self.n_torneos):
+                                if self.torneos[j].nombre == nombre:
+                                    flag = True
+                                    pos = j
+                                    break
+                            if flag:
+                                self.torneos[j].Cambiar_estado()
+                            else:
+                                print("---------------------------")
+                                print("No existe un torneo con ese nombre")
+                                print("---------------------------")
+                            print("Ingrese 0 o 1 para modificar otro torneo")
+                            print("Ingrese 2 o 3 para salir")
+                            aux = input("Ingrese una opcion: ")
+                            aux = Verificacion_Opcion(aux)
+                            if (aux == "2" or aux == "3"):  
+                                break
+                    case "0":
+                        print("Gracias por usar el sistema de Torneos")
+                        
 
             case "2":
                 print("GESTION DE JUGADORES")
+                print("Ingrese  1  para agregar jugador")
+                print("Ingrese 2 o 3 para eliminar jugador")
+                print("Ingrese 0 Si desea salir del sistema")
+                opc = input("Ingrese una opcion: ")
+                opc = Verificacion_Opcion(opc)
+                match opc:
+                    case  "1":
+                        print("Creacion de jugador")
+                        for i in range(0, 50, 1):
+                            
+                            self.crear_jugador()    
+                            print("Ingrese 0 o 1 para ingresar otro Jugador")
+                            print("Ingrese 2 o 3 para salir")
+                            aux = input("Ingrese una opcion: ")
+                            aux = Verificacion_Opcion(aux)
+                            if (aux == "2" or aux == "3"):  
+                                break 
+                                
+                    case "2" | "3" :
+                        print("Eliminacion de jugador")
+                        while True:
+                            self.eliminar_jugador()
+                            print("Ingrese 0 o 1 para eliminar otro Jugador")
+                            print("Ingrese 2 o 3 para salir")
+                            aux = input("Ingrese una opcion: ")
+                            aux = Verificacion_Opcion(aux)
+                            if (aux == "2" or aux == "3"):  
+                                break  
+                            
+                    case "0":
+                        print("Gracias por usar el sistema de Torneos")
 
                 
             case "0" | "3":
                 print("Gracias por usar el sistema de Torneos")
-                break
+
                 
         
-    
+    def menu_Jugador(self):
+        while True:
+            print("Accediste como Jugador")
+            print("1. Ingresar")
+            print("2. Registrarse")
+            print("3.Salir de Sistema")
+            opc = input("Ingrese una opcion: ")
+            match opc:
+                case "1":
+                    if(self.n_jugadores==0):
+                        print("---------------------------")
+                        print("///Aun no hay jugadores registrados en el sistema///")
+                        print("---------------------------")
+                    else:
+                        while True:
+                            nickname = input("Ingrese el nickname para acceder al sistema : ")
+                            contra = input("Ingrese la clave para acceder al sistema: ")
+                            flag = False
+                            for j in range(self.n_jugadores):
+                                if (self.jugadores[j].nickname == nickname and self.jugadores[j].contra == contra):
+                            """
+                            TERMINAR, EN EL IF SE VERIFICA SI EL NICKNAME Y LA CONTRASEÑA SON IGUALES PARA PODER INGRESAR AL SISTEMA
+                            COMO JUGADOR, UNA VEZ DENTRO EL USUARIO JUGADOR PODRA REGISTRASE EN UN TORNEO, CREAR UN EQUIPO PARA UN
+                            TORNEO, AÑADIR JUGADOR AL EQUIPO DEL EL O ELIMINARLO
+                            """
+                        
+        
     def Principal(self):
         resp = 0
         while (resp ==0):
@@ -312,7 +416,7 @@ class App_Torneo:
                     self.menu_organizador()
 
                 case "3":
-                    print("Accediste como Jugador")
+                    self.menu_Jugador()
 
                 case "0": 
                     print("Gracias por usar el sistema de Torneos")
