@@ -1,1 +1,66 @@
+from Torneo import *
 
+class Partida:
+    def __init__(self):
+        self.dia_k = 0
+        self.mes_k = 0
+        self.year_k = 0
+        self.hora_k = 0.0
+        self.contrincante1 = ""
+        self.contrincante2 = ""
+        self.estado = 0
+        self.resultado = 0.0
+        self.t = Torneo() 
+
+    def pedir_datos(self):
+        self.contrincante1 = input("Ingrese el nombre del primer contrincante: ")
+        self.contrincante2 = input("Ingrese el nombre del segundo contrincante: ")
+
+        print(f"Modalidad actual del torneo: {self.t.modalidad}")
+
+    def crear_partida(self):
+        self.dia_k = int(input("Ingrese el día de la partida: "))
+        self.mes_k = int(input("Ingrese el mes de la partida: "))
+        self.year_k = int(input("Ingrese el año de la partida: "))
+        self.hora_k = float(input("Ingrese la hora de la partida: "))
+
+        if self.t.modalidad == "1":
+            print("La partida es individual")
+        else:
+            print("La partida es por equipos")
+
+        print("---------------------------")
+        print(f"El participante número 1 es: {self.contrincante1}")
+        print(f"El participante número 2 es: {self.contrincante2}")
+        print("---------------------------")
+
+    def Cambiar_estado(self) -> None:
+        while True:
+            aux = input("Ingrese el estado de la partida \n 0.Pendiente \n 1.Jugada \n 2.Anulada: ")
+
+            match aux:
+                case "0":
+                    self.estado = int(aux)
+                    print("Se ha modificado el estado de la partida: Pendiente")
+                    break
+                case "1":
+                    self.estado = int(aux)
+                    print("Se ha modificado el estado de la partida: Jugada")
+                    break
+                case "2":
+                    self.estado = int(aux)
+                    print("Se ha modificado el estado de la partida: Finalizada")
+                    break
+                case _:
+                    print("Error: Ingreso una opción no válida.")
+            print("Intente de nuevo.\n")
+
+    def registrar_resultado(self):
+        if self.estado == 1:
+            resultado1 = float(input("Ingrese puntaje del primer contrincante: "))
+            resultado2 = float(input("Ingrese puntaje del segundo contrincante: "))
+            return resultado1, resultado2
+        elif self.estado == 2:
+            print("La partida ya finalizó")
+        else:
+            print("La partida sigue en estado pendiente")
