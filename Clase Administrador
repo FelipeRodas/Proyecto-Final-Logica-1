@@ -28,8 +28,8 @@ class Administrador:
     """
 
     def verificacion (self, usuario: str, password: str):
-        for k in range (len(organizador)):
+        for k in range (len(administrador)):
             if self.usuario == usuario and self.password == password:
-                print ("bienvenido al sistema de organizadores")
-        if k > len((organizador)):
+                print ("bienvenido al sistema de administradores")
+        if k > len((administrador)):
             print ("usuario o password incorrecta")
