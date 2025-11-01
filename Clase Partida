@@ -17,6 +17,10 @@ class Partida:
         self.contrincante2 = input("Ingrese el nombre del segundo contrincante: ")
 
         print(f"Modalidad actual del torneo: {self.t.modalidad}")
+    """
+    METODO CREAR_PARTIDA 
+    Permite crear una partida
+    """
 
     def crear_partida(self):
         self.dia_k = int(input("Ingrese el día de la partida: "))
@@ -33,7 +37,10 @@ class Partida:
         print(f"El participante número 1 es: {self.contrincante1}")
         print(f"El participante número 2 es: {self.contrincante2}")
         print("---------------------------")
-
+     """
+    METODO CAMBIAR ESTADO
+    permite cambiar el estado de una partida
+    """
     def Cambiar_estado(self) -> None:
         while True:
             aux = input("Ingrese el estado de la partida \n 0.Pendiente \n 1.Jugada \n 2.Anulada: ")
