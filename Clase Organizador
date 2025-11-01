@@ -26,22 +26,6 @@ class Organizador:
         torneo.crear_torneo()
         torneo.Cambiar_estado()
 
-    def resultados_partida(self):
-        print("Se registraron los resultados de la partida")
-
-    def mostrar_resultados(self, lista_jugadores):
-
-        n = len(lista_jugadores)
-        for i in range(n - 1):
-            for j in range(n - 1 - i):
-                if lista_jugadores[j].puntuacion > lista_jugadores[j + 1].puntuacion:
-                    lista_jugadores[j], lista_jugadores[j + 1] = lista_jugadores[j + 1], lista_jugadores[j]
-
-        print("Resultados del torneo:")
-        for j in lista_jugadores:
-            print(f"{j.nombre} tiene {j.puntuacion} puntos")
-
-        return lista_jugadores
 
 
 
