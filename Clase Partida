@@ -1,6 +1,19 @@
 from Torneo import *
 
 class Partida:
+
+  dia_k = int()
+  mes_k = int()
+  year_k = int()
+  hora_k = float()
+  contricante = str()
+  contricante2 = str()
+  estado = int()
+  resultado = float()
+  """
+    METODO CONSTRUCTOR
+    este metodo no recibe parametros para crear una partida
+    """
     def __init__(self):
         self.dia_k = 0
         self.mes_k = 0
@@ -38,7 +51,7 @@ class Partida:
         print(f"El participante número 2 es: {self.contrincante2}")
         print("---------------------------")
      """
-    METODO CAMBIAR ESTADO
+    METODO CAMBIAR_ESTADO
     permite cambiar el estado de una partida
     """
     def Cambiar_estado(self) -> None:
@@ -61,7 +74,10 @@ class Partida:
                 case _:
                     print("Error: Ingreso una opción no válida.")
             print("Intente de nuevo.\n")
-
+     """
+    METODO REGISTRAR_RESULTADO
+    permite registrar un resultado
+    """
     def registrar_resultado(self):
         if self.estado == 1:
             resultado1 = float(input("Ingrese puntaje del primer contrincante: "))
