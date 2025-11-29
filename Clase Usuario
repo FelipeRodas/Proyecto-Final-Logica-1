@@ -1,0 +1,111 @@
+import numpy as np
+from funciones import *
+
+class Usuario:
+    """
+    Atributos Publicos
+    """
+    nombre = str()
+    contra = str()
+    documento = str()
+    correo = str()
+    dia_n = int()
+    mes_n = int()
+    year_n = int()
+    nickname = str()#Apodo unico para cada jugador
+    puntaje = int()
+    name_E = str()#Nombre del equipo al que pertenece
+    name_T = str()#Nombre del torneo al que pertenece
+    coordinador = str()# 1 si es coordinador del equipo, 0 si no lo es
+    rol = int()
+
+    def __init__(self,rol,nickname = "",documento = "0",contra = ""):
+        """
+        METODO CONSTRUCTOR
+        
+        Parametro obligatorio: 
+        -Un entero que sera el rol del Usuario.
+        1.Administrador, 2.Organizador, 3. Jugador
+        Parametros Opcionales:
+        -Tres strings que seran el nickname,el documento y la contraseña.
+        Este metodo no tiene Return.
+        """
+        self.rol = rol
+        self.nombre = ""
+        self.documento = documento
+        self.contra = contra
+        self.correo = " "
+        self.dia_n = 0
+        self.mes_n = 0
+        self.year_n = 0
+        self.nickname = nickname
+        self.puntaje = 0
+        self.name_E = ""
+        self.name_T = ""
+        self.coordinador = "0"
+   
+    def pedir_datos_jugador(self,nickname)-> None:
+        """
+    
+        Este metodo recibe como parametro obligatorio un string, que sera 
+        el nickname y su funcion es registrar los datos del jugador en sus 
+        respectivos atributos.
+        Este metodo no tiene Return.
+        
+        """
+        self.nickname = nickname
+        self.nombre = input("Ingrese el nombre del jugador: ")
+        self.contra = input("Ingrese la clave para acceder al sistema: ")
+        while True:
+            self.documento = input("Ingrese el documento de identidad: ")
+            if not self.documento.isdigit():
+                print("---------------------------")
+                print("El documento ingresado no es valido")
+                print("---------------------------")
+            else:
+                break
+        self.correo = input("Ingrese el correo del jugador: ")
+        while True:
+            dia_i = int(input("Ingrese el dia de nacimiento: "))
+            mes_i = int(input("Ingrese el mes de nacimiento: "))
+            año_i = int(input("Ingrese el año de nacimiento: "))
+            print("---------------------------")
+            r = Verificar_nacimiento(dia_i, mes_i, año_i)
+            match r:
+                case 0:
+                    print("Fecha de nacimiento válida.")
+                    break
+                case 1:
+                    print("Error: el año es posterior al actual.")
+                case 2:
+                    print("Error: el mes no es válido.")
+                case 3:
+                    print("Error: el día no es válido o no existe.")
+                case 4:
+                    print("Error: la fecha es posterior a hoy.")
+            print("Intente de nuevo.\n")
+            print("---------------------------")
+   
+    def pedir_datos_Organizador(self,nickname)->None:
+        """
+        
+        Este metodo recibe como parametro obligatorio un string, que sera 
+        el nickname y su funcion es registrar los datos del organizador en sus 
+        respectivos atributos.
+        Este metodo no tiene Return.
+        
+        """
+        self.nickname = nickname
+        self.contra = input("Ingrese la clave para acceder al sistema: ")
+        while True:
+            self.documento = input("Ingrese el documento de identidad: ")
+            if not self.documento.isdigit():
+                print("---------------------------")
+                print("El documento ingresado no es valido")
+                print("---------------------------")
+            else:
+                break
+        self.correo = input("Ingrese el correo del jugador: ")
+        
+        
+        
