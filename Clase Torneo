@@ -1,6 +1,7 @@
 import numpy as np
-from funciones import *
-
+from funciones import*
+from Usuario import Usuario
+import random
 
 class Torneo: 
     """
@@ -20,14 +21,16 @@ class Torneo:
     partidas = np.ndarray
     
     
-    """
-    METODO CONSTRUCTOR 
-    Este metodo no recibe parametros para crear un Torneo
-    """
-    def __init__(self):
-        self.nombre = ""
+    def __init__(self,nombre = ""):
+        """
+        METODO CONSTRUCTOR 
+        Este metodo recibe un parametro opcional que es el 
+        nombre del torneo.
+        Este metodo no tiene Return.
+        """
+        self.nombre = nombre
         self.juego = ""
-        self.modalidad = 0
+        self.modalidad = "1"
         self.descripcion = ""
         self.dia_i = 0
         self.mes_i = 0
@@ -36,21 +39,16 @@ class Torneo:
         self.mes_f = 0
         self.year_f = 0
         self.estado = 0
-        """
-        El arreglo partidas esta vacio, se llenara en el 
-        metodo iniciar partidas y es de la clase partida
-        """
         self.partidas = np.full((16), fill_value=None, dtype=object)
         
         
-    
-        
-    """
-    METODO PEDIR_DATOS
-    Este metodo recibe un parametro obligatorio ya verificado por
-    el menu dado que el nombre debe ser unico para cada torneo
-    """
     def pedir_datos(self,nombre)-> None:
+        """
+        Este metodo recibe un parametro obligatorio ya verificado por
+        el menu, dado que el nombre debe ser unico para cada torneo.
+        Este metodo no tiene Return
+        
+        """
         self.estado = 1
         self.nombre = nombre
         self.juego = input("Ingrese el nombre del juego: ")
@@ -123,10 +121,19 @@ class Torneo:
         print("Torneo creado correctamente.\n")
         
         
+    def Cambiar_estado(self,arreglo_jugadores,contador)-> None:
+        """
+         
+        Este metodo recibe como parametros obligatorios un arreglo de objetos, el cual
+        tendra todos los jugadores del sistema y un entero el cual sera la cantidad de
+        jugadores que hay en el sistema.
+        Este metodo no tiene Return
         
-        
-    def Cambiar_estado(self)-> None:
-        
+        """
+        arreglo = np.ndarray(contador, dtype=object)
+        for i in range(contador):
+            if arreglo_jugadores[i].name_T ==self.nombre:
+                arreglo[i]=arreglo_jugadores[i]
         while True:
             aux = input("Ingrese el estado del torneo \n 0.Abierto \n 1.En curso\n 2.Finalizado \n 3.Cancelado: ")
             
@@ -138,10 +145,31 @@ class Torneo:
                 case "1":
                     self.estado = int(aux)
                     print("Se ha modificado el estado del Torne: EN CURSO")
+                    print("---------------------------")
+                    print("Se estan llevando acabo las partidas")   
+                    print("---------------------------")
+                    for i in range (len(self.partidas)):
+                        self.partidas[i] = "Partida"+ str(i+1)
+                        print(self.partidas[i])
+                     
+                        for i in range(len(arreglo)):
+                            if arreglo[i] is not None:
+                                arreglo[i].puntaje = random.randint(0, 100)
+                        
                     break
                 case "2":
                     self.estado = int(aux)
                     print("Se ha modificado el estado del Torne: FINALIZADO")
+                    nombre_ganador = ""
+                    puntaje_max = 0
+                    
+                    for i in range (len(arreglo)):
+                        if arreglo[i] is not None:
+                            if arreglo[i].puntaje > puntaje_max:
+                                puntaje_max = arreglo[i].puntaje
+                                nombre_ganador = arreglo[i].nombre
+                    print("EL ganador del Torneo es:",nombre_ganador,"Con un puntaje de:",puntaje_max)
+                            
                     break
                 case "3":
                     self.estado = int(aux)
