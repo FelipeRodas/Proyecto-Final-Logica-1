@@ -1,10 +1,20 @@
 from datetime import date
+import os
+
 
 """
 En este archivo se guardaran y se haran las funciones auxiliares 
 que serviran como soporte para los metodos de las diferentes clases
 """
 
+"""
+FUNCION LIMPIAR_CONSOLA
+
+Esta funcion no recibe parametros y su trabajo es limpiar la consola del usuario
+"""
+def limpiar_consola():
+    comando = 'cls' if os.name == 'nt' else 'clear'
+    os.system(comando)
 """
 FUNCION VERIFICAR_FECHA_I
 
@@ -17,7 +27,7 @@ def Verificar_Inicio(dia, mes, año):
     hoy = date.today()
     
     # Año inválido
-    if año < hoy.year:
+    if año < hoy.year or año > 9999:
         return 1
     
     # Mes inválido
@@ -84,7 +94,7 @@ def Verificar_Final(dia_i, mes_i, año_i, dia, mes, año):
         return 3
     
     # Validar año
-    if año < hoy.year:
+    if año < hoy.year or año > 9999:
         return 1
     
     # Crear fechas completas
@@ -105,6 +115,7 @@ def Verificar_Final(dia_i, mes_i, año_i, dia, mes, año):
 
 """
 FUNCION VERIFICAR_OPCION
+
 Esta funcion recibe 1 parametro de tipo entero que es la opcion 
 de un menu de 3 opciones validas para verificar que al ingresar la opcion,
 se ingrese una opcion valida
@@ -118,10 +129,14 @@ def Verificacion_Opcion(opc) :
           
     return opc
         
-        
-        
-from datetime import date
+"""
+FUNCION VERIFICAR_NACIMIENTO
 
+Esta funcion recibe 3 parametros dia, mes y año que son la fecha de 
+nacimento del usuario y lo que hace es verificar que dicha fecha sea valida
+
+"""       
+    
 def Verificar_nacimiento(dia, mes, año):
     diamax = 0
     hoy = date.today()
