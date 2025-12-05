@@ -49,7 +49,7 @@ class Torneo:
         Este metodo no tiene Return
         
         """
-        self.estado = 1
+        self.estado = 0
         self.nombre = nombre
         self.juego = input("Ingrese el nombre del juego: ")
         print("---------------------------")
@@ -178,7 +178,4 @@ class Torneo:
                 case _:
                     print("Error: Ingreso una opcion no valida." )
             print("Intente de nuevo.\n")
-        
-        
-
             
