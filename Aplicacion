@@ -1,6 +1,7 @@
 import numpy as np
 from Torneo import Torneo
 from Usuario import Usuario
+from Equipo import Equipo
 from funciones import*
 
 class Aplicacion:
@@ -11,12 +12,17 @@ class Aplicacion:
     cont_usuarios = int()
     torneos = np.ndarray
     cont_torneos = int()
+    equipos = np.ndarray
+    cont_equipos = int()
     #Constantes
     
-    MAX_USUARIOS = 55
+    MAX_USUARIOS = 100
     ARCHIVO_USUARIOS = "datos_usuarios.npy"
     MAX_TORNEOS = 20
     ARCHIVO_TORNEOS =  "datos_torneos.npy"
+    MAX_EQUIPOS = 20 
+    ARCHIVO_EQUIPOS = "datos_equipos.npy"
+    
     
     
     def __init__(self):
@@ -56,6 +62,11 @@ class Aplicacion:
                 print("No se pudo guardar el archivo de torneos")
             else:
                 print("Se actualizó el archivo de torneos")
+                
+                
+        #Carga los Equipos almacenados en el archivo de equipos
+        self.equipos, self.cont_equipos = self.cargar_datos(self.ARCHIVO_EQUIPOS, self.MAX_EQUIPOS)
+        
         
             
     def cargar_datos(self, archivo, num_max_datos):
@@ -98,6 +109,7 @@ class Aplicacion:
         except (FileNotFoundError, EOFError):
             print (f"Error: no se pudieron almacenar los  datos en el archivo {archivo}.")
             return False
+        
     
     def registrar_usuario(self,usuario):
         """
@@ -181,7 +193,7 @@ class Aplicacion:
                 else:
                     if (self.usuarios[pos].rol == 3):
                         # Desplazar los Jugadores siguientes una posición hacia la izquierda
-                        for k in range(pos, self.cont_usuarios):
+                        for k in range(pos, self.cont_usuarios-1):
                             self.usuarios[k] = self.usuarios[k + 1]
                     
                         # Vaciar la última posición, porque la ultima posicion se duplica
@@ -287,7 +299,7 @@ class Aplicacion:
                 print("---------------------------")
             else:
                 # Desplazar los torneos siguientes una posición hacia la izquierda
-                for k in range(pos, self.cont_torneos):
+                for k in range(pos, self.cont_torneos-1):
                     self.torneos[k] = self.torneos[k + 1]
             
                 # Vaciar la última posición, porque la ultima posicion se duplica
@@ -361,7 +373,7 @@ class Aplicacion:
                     print("---------------------------")
                 else:
                     # Desplazar los Usuarios siguientes una posición hacia la izquierda
-                    for k in range(pos, self.cont_usuarios):
+                    for k in range(pos, self.cont_usuarios-1):
                         self.usuarios[k] = self.usuarios[k + 1]
                 
                     # Vaciar la última posición, porque la ultima posicion se duplica
@@ -635,7 +647,7 @@ class Aplicacion:
                     print("---LISTA DE TORNEOS EN LO QUE SE PUEDE INSCRIBIR---")
                     for i in range(self.cont_torneos):
                         if self.torneos[i].estado == 0:
-                            print(i +1 ,self.torneos[i].nombre," Modalidad: ",self.torneos[i].modalidad)
+                            print(i+1 ,self.torneos[i].nombre," Modalidad: ",self.torneos[i].modalidad)
                             
                     print("En apartado de Modalidad (1) Es individual, (2) Es Por equipos")
                     aux = 1
@@ -648,41 +660,109 @@ class Aplicacion:
                                     pos = 0
                                     for i in range(self.cont_usuarios):
                                         if self.usuarios[i] == usuario:
-                                            self.usuarios[i].name_T = name
-                                            flag = True
-                                            pos = i
-                                            
-                                    if  (self.torneos[j].modalidad == "2"):
-                                        print("El torneo es de modalidad por equipos")
-                                        equipo = input("Ingrese el nombre del equipo donde desea participar: ")
-                                        self.usuarios[pos].name_E = equipo
-                                        self.guardar_datos(self.usuarios, self.ARCHIVO_USUARIOS)
-                                        aux = 0
-                                    else: 
-                                        print("Te has inscrito correctamente al Torneo:",self.torneos[j].nombre)
-                                        self.guardar_datos(self.usuarios, self.ARCHIVO_USUARIOS)
-                                        aux = 0
-                                        print("1. Si desea continuar en el MENU")
-                                        print("Pulse un caracter diferente de (1) para SALIR")
-                                        opcion = input("Ingrese una opcion: ")
-                                        print("---------------------------")
-                                        print("---------------------------")
+                                            bandera_registro = False
+                                            for k in range(self.usuarios[i].cont_inscritos):
+                                                if self.usuarios[i].name_T[k] == name:
+                                                    flag = True
+                                                    pos = i
+                                                    bandera_registro = True
+                                                    break
+                                                    
+                                                else:
+                                                    bandera_registro = False
+                                                    
+                                                      
+                                            if bandera_registro ==False:    
+                                                if self.usuarios[i].cont_inscritos < 5:
+                                                   self.usuarios[i].name_T[self.usuarios[i].cont_inscritos] = name
+                                                   self.usuarios[i].cont_inscritos += 1
+                                                   flag = True
+                                                   pos = i
+                                    if flag == True:
+                                        
+                                        if  (self.torneos[j].modalidad == "2"):
+                                            print("El torneo es de modalidad por equipos")
+                                            equipo = input("Ingrese el nombre del equipo donde desea participar: ")
+                                            bandera_equipo = False
+                                            for m in range(self.cont_equipos):
+                                                if self.equipos[m] == equipo:
+                                                    bandera_equipo = True
+                                            if bandera_equipo == True:
+                                                print("En proceso")
+                                                """
+                                                Como el equipo esta creado, se tiene que agregar el jugador al equipo y guardarlo
+                                                en el archivo de equipos
+                                                """
+                                                
+                                            else:
+                                                print("No hay ningun equipo con ese nombre")
+                                                print("¿Desea crear un equipo nuevo?")
+                                                print("Ingrese 1. para crear un equipo")
+                                                print("Ingrese un caracter diferente de 1 para Salir")
+                                                opcion = input("Ingrese una opcion: ")
+                                                if opcion == "1":
+                                                    equipo1 = Equipo()
+                                                    equipo1.crear_equipo()
+                                                    equipo1.agregar_jugador()
+                                                    """
+                                                    Verificar Su funcionamiento y terminar
+                                                    """
+                                                       
+                                            aux = 0
+                                        else: 
+                                            print("Te has inscrito correctamente al Torneo:",self.torneos[j].nombre)
+                                            self.guardar_datos(self.usuarios, self.ARCHIVO_USUARIOS)
+                                            print("Actualmente estas Inscrito en estos Torneo")
+                                            for i in range(self.usuarios[pos].cont_inscritos):
+                                                print(self.usuarios[pos].name_T[i])
+                                                
+                                            aux = 0
+                                            print("1. Si desea continuar en el MENU")
+                                            print("Pulse un caracter diferente de (1) para SALIR")
+                                            opcion = input("Ingrese una opcion: ")
+                                            print("---------------------------")
+                                            print("---------------------------")
                                              
                                 else:
                                     print("El torneo ingresado no esta en la lista de Torneos disponibles.")
-                            if flag == False:
-                                print("NO hay ningun torneo con el nombre que se ingreso")
-                case "2":
-                    print("¿Desea SALIRSE del torneo en el que esta Inscrito?")
-                    print("1. Si")
-                    print("Ingrese cualquier caracter diferente de (1) para salir")
-                    opc = input("Ingrese una opcion: ")
-                    if opc == "1":
-                        for i in range(self.cont_usuarios):
-                            if self.usuarios[i]== usuario:
-                                self.usuarios[i].name_T = ""
-                        self.guardar_datos(self.usuarios, self.ARCHIVO_USUARIOS)
-                        print("Ya no eres participante del torneo")
+                        if flag == False:
+                            print("NO hay ningun torneo con el nombre que se ingreso")
+                case "2": 
+                    name = input("Ingrese el nombre del torneo del que desea SALIRSE:")
+                    for i in range(self.cont_usuarios):
+                        if self.usuarios[i] == usuario:
+                            bandera_registro = False
+                            pos = 0
+                            for k in range(self.usuarios[i].cont_inscritos):
+                                if self.usuarios[i].name_T[k] == name:
+                                    pos = k
+                                    bandera_registro = True
+                                    break
+                                
+                            if bandera_registro == False:
+                                print("---------------------------")
+                                print("Actualmente no estas inscrito en un Torneo con ese nombre")
+                                print("---------------------------")
+                                
+                            else: 
+                                # Desplazar los Torneo inscritos siguientes una posición hacia la izquierda
+                                for j in range(pos, self.usuarios[i].cont_inscritos-1):
+                                    self.usuarios[i].name_T[j] = self.usuarios[i].name_T[j+1]
+                                    
+                                # Vaciar la última posición, porque la ultima posicion se duplica
+                                self.usuarios[i].name_T[self.usuarios[i].cont_inscritos-1] = None 
+                            
+                                # Actualizar contador
+                                self.usuarios[i].cont_inscritos-1
+                                print("Te has salido correctamente del Torneo")
+                                print("---------------------------")
+                            
+                            print("Actualmente estas Inscrito en estos Torneo")
+                            for k in range(self.usuarios[i].cont_inscritos):
+                                print(self.usuarios[i].cont_inscritos,self.usuarios[i].name_T[k])
+                                
+                    self.guardar_datos(self.usuarios, self.ARCHIVO_USUARIOS)
+                    print("Ya no eres participante del torneo")
                     print("1. Si desea continuar en el MENU")
                     print("Pulse un caracter diferente de (1) para SALIR")
                     opcion = input("Ingrese una opcion: ")
