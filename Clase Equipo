@@ -8,7 +8,7 @@ class Equipo:
     """
     coordinador = Jugador()
     nombre = str
-    puntaje = float
+    puntaje = int
     jugadores = np.ndarray 
 
 
@@ -20,8 +20,8 @@ class Equipo:
     def ___init___(self):
         self.nombre = ""
         self.coordinador = None
-        self.jugadores = np.empty
-        self.puntaje = 0.0
+        self.jugadores = np.ndarry
+        self.puntaje = 0
 
 
 
@@ -33,19 +33,17 @@ class Equipo:
         print("Creación de equipo.\n")
         self.nombre = input("Ingrese el nombre del equipo: ")
         print(f"\nEl equipo {self.nombre} ha sido creado. ")
+        self.jugadores = np.full((5), fill_value=None, dtype=object)
 
     """
     METODO AGREGAR_JUGADOR
     Permite agregar un jugador
     """
-    def agregar_jugador(self, cont = int) -> None:
+    def agregar_jugador(self, cont = int) -> int:
        
         jugador_agregado = str
 
         print("Agregar un jugador.\n")
-
-        if jugador_agregado == None:
-            print("Ingrese un jugador.\n")
         
         if jugador_agregado in self.jugadores:
             print("ESte jugador ya está en el equipo. \n")
