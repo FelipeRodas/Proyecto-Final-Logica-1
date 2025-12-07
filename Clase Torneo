@@ -1,9 +1,8 @@
 import numpy as np
-from funciones import*
+from funciones import *
 from Usuario import Usuario
-import random
 
-class Torneo: 
+class Torneo:
     """
     Atributos publicos
     """
@@ -19,13 +18,11 @@ class Torneo:
     year_f = int()
     estado = int()
     partidas = np.ndarray
-    
-    
-    def __init__(self,nombre = ""):
+
+    def __init__(self, nombre=""):
         """
-        METODO CONSTRUCTOR 
-        Este metodo recibe un parametro opcional que es el 
-        nombre del torneo.
+        METODO CONSTRUCTOR
+        Este metodo recibe un parametro opcional que es el nombre del torneo.
         Este metodo no tiene Return.
         """
         self.nombre = nombre
@@ -40,14 +37,12 @@ class Torneo:
         self.year_f = 0
         self.estado = 0
         self.partidas = np.full((16), fill_value=None, dtype=object)
-        
-        
-    def pedir_datos(self,nombre)-> None:
+
+    def pedir_datos(self, nombre) -> None:
         """
-        Este metodo recibe un parametro obligatorio ya verificado por
-        el menu, dado que el nombre debe ser unico para cada torneo.
+        Este metodo recibe un parametro obligatorio ya verificado por el menu,
+        dado que el nombre debe ser unico para cada torneo.
         Este metodo no tiene Return
-        
         """
         self.estado = 0
         self.nombre = nombre
@@ -55,32 +50,35 @@ class Torneo:
         print("---------------------------")
         aux = 0
         self.modalidad = input("Ingrese el tipo de modalidad, 1. Individual o 2.Por equipos: ")
-        while( aux == 0):
-            if(self.modalidad != "1" and self.modalidad != "2"):
+
+        while aux == 0:
+            if self.modalidad != "1" and self.modalidad != "2":
                 print("---------------------------")
                 print("Ingreso una opcion no valida")
                 print("---------------------------")
                 self.modalidad = input("Ingrese el tipo de modalidad, 1. Individual o 2.Por equipos: ")
                 print("---------------------------")
-                
             else:
                 aux = 1
-                
+
         print("---------------------------")
         self.descripcion = input("Ingrese una descripcion breve del Torneo: ")
         print("---------------------------")
+
+        # Fecha de inicio
         print("Fecha de incio del Torneo")
         while True:
-            dia_i = int(input("Día de inicio: "))
-            mes_i = int(input("Mes de inicio: "))
-            año_i = int(input("Año de inicio: "))
+            dia_i = leer_entero("Día de inicio: ")
+            mes_i = leer_entero("Mes de inicio: ")
+            año_i = leer_entero("Año de inicio: ")
             print("---------------------------")
-        
             r = Verificar_Inicio(dia_i, mes_i, año_i)
-        
             match r:
                 case 0:
                     print("Fecha de inicio válida.")
+                    self.dia_i = dia_i
+                    self.mes_i = mes_i
+                    self.year_i = año_i
                     break
                 case 1:
                     print("Error: el año es anterior al actual.")
@@ -92,20 +90,22 @@ class Torneo:
                     print("Error: la fecha es anterior a hoy.")
             print("Intente de nuevo.\n")
             print("---------------------------")
-        
+
+        # Fecha de finalización
         print("Fecha de Finalizacion de Torneo")
         print("---------------------------")
         while True:
-            dia_f = int(input("Día de finalización: "))
-            mes_f = int(input("Mes de finalización: "))
-            año_f = int(input("Año de finalización: "))
+            dia_f = leer_entero("Día de finalización: ")
+            mes_f = leer_entero("Mes de finalización: ")
+            año_f = leer_entero("Año de finalización: ")
             print("---------------------------")
-            
-            r = Verificar_Final(dia_i, mes_i, año_i, dia_f, mes_f, año_f)
-            
+            r = Verificar_Final(self.dia_i, self.mes_i, self.year_i, dia_f, mes_f, año_f)
             match r:
                 case 0:
                     print("Fecha de finalización válida.")
+                    self.dia_f = dia_f
+                    self.mes_f = mes_f
+                    self.year_f = año_f
                     break
                 case 1:
                     print("Error: año inválido o anterior a hoy.")
@@ -117,65 +117,114 @@ class Torneo:
                     print("Error: la fecha de finalización es anterior a la de inicio.")
             print("Intente de nuevo.\n")
             print("---------------------------")
-            
+
         print("Torneo creado correctamente.\n")
-        
-        
-    def Cambiar_estado(self,arreglo_jugadores,contador)-> None:
+
+    def Cambiar_estado(self, arreglo_jugadores, contador) -> None:
         """
-         
-        Este metodo recibe como parametros obligatorios un arreglo de objetos, el cual
-        tendra todos los jugadores del sistema y un entero el cual sera la cantidad de
-        jugadores que hay en el sistema.
+        Este metodo recibe como parametros obligatorios un arreglo de objetos,
+        el cual tendra todos los jugadores del sistema y un entero el cual sera
+        la cantidad de jugadores que hay en el sistema.
         Este metodo no tiene Return
-        
         """
-        arreglo = np.ndarray(contador, dtype=object)
+
+        # Construye arreglo con los participantes de ESTE torneo
+        participantes = np.full((contador), fill_value=None, dtype=object)
+        num_participantes = 0
+
         for i in range(contador):
-            if arreglo_jugadores[i].name_T ==self.nombre:
-                arreglo[i]=arreglo_jugadores[i]
+            if arreglo_jugadores[i] is not None:
+                j = 0
+                while j < arreglo_jugadores[i].cont_inscritos:
+                    if arreglo_jugadores[i].name_T[j] == self.nombre:
+                        participantes[num_participantes] = arreglo_jugadores[i]
+                        num_participantes += 1
+                        break
+                    j += 1
+
         while True:
             aux = input("Ingrese el estado del torneo \n 0.Abierto \n 1.En curso\n 2.Finalizado \n 3.Cancelado: ")
-            
+
             match aux:
                 case "0":
-                    self.estado = int(aux)
+                    self.estado = 0
                     print("Se ha modificado el estado del Torneo: ABIERTO")
+                    print("---------------------------")
                     break
+
                 case "1":
-                    self.estado = int(aux)
-                    print("Se ha modificado el estado del Torne: EN CURSO")
+                    # EN CURSO: crear partidas y acumular puntajes
+                    from Partida import Partida
+
+                    self.estado = 1
+                    print("Se ha modificado el estado del Torneo: EN CURSO")
                     print("---------------------------")
-                    print("Se estan llevando acabo las partidas")   
+                    print("Se estan llevando a cabo las partidas")
                     print("---------------------------")
-                    for i in range (len(self.partidas)):
-                        self.partidas[i] = "Partida"+ str(i+1)
-                        print(self.partidas[i])
-                     
-                        for i in range(len(arreglo)):
-                            if arreglo[i] is not None:
-                                arreglo[i].puntaje = random.randint(0, 100)
-                        
+
+                    indice_partida = 0
+                    i = 0
+                    while i < num_participantes and indice_partida < len(self.partidas):
+                        if i + 1 < num_participantes:
+                            p = Partida()
+
+                            if self.modalidad == "1":
+                                p.contrincante1 = participantes[i].nickname
+                                p.contrincante2 = participantes[i + 1].nickname
+                            else:
+                                p.contrincante1 = participantes[i].name_E
+                                p.contrincante2 = participantes[i + 1].name_E
+
+                            print("Creando partida", indice_partida + 1)
+                            print("Contrincante 1:", p.contrincante1)
+                            print("Contrincante 2:", p.contrincante2)
+                            p.crear_partida()
+                            p.Cambiar_estado()
+                            resultados = p.registrar_resultado()
+
+                            if resultados is not None:
+                                r1, r2 = resultados
+                                participantes[i].puntaje += r1
+                                participantes[i + 1].puntaje += r2
+
+                            self.partidas[indice_partida] = p
+                            indice_partida += 1
+
+                        i += 2
+
                     break
+
                 case "2":
-                    self.estado = int(aux)
-                    print("Se ha modificado el estado del Torne: FINALIZADO")
+                    # FINALIZADO: buscar el mayor puntaje
+                    self.estado = 2
+                    print("Se ha modificado el estado del Torneo: FINALIZADO")
                     nombre_ganador = ""
-                    puntaje_max = 0
-                    
-                    for i in range (len(arreglo)):
-                        if arreglo[i] is not None:
-                            if arreglo[i].puntaje > puntaje_max:
-                                puntaje_max = arreglo[i].puntaje
-                                nombre_ganador = arreglo[i].nombre
-                    print("EL ganador del Torneo es:",nombre_ganador,"Con un puntaje de:",puntaje_max)
-                            
+                    puntaje_max = -1
+
+                    i = 0
+                    while i < num_participantes:
+                        if participantes[i] is not None:
+                            if participantes[i].puntaje > puntaje_max:
+                                puntaje_max = participantes[i].puntaje
+                                if self.modalidad == "1":
+                                    nombre_ganador = participantes[i].nickname
+                                else:
+                                    nombre_ganador = participantes[i].name_E
+                        i += 1
+
+                    if puntaje_max >= 0:
+                        print("EL ganador del Torneo es:", nombre_ganador, "Con un puntaje de:", puntaje_max)
+                    else:
+                        print("No hay puntajes registrados para este torneo.")
+                    print("---------------------------")
                     break
+
                 case "3":
-                    self.estado = int(aux)
-                    print("Se ha modificado el estado del Torne: CANCELADO")
-                    
+                    self.estado = 3
+                    print("Se ha modificado el estado del Torneo: CANCELADO")
+                    print("---------------------------")
+                    break
+
                 case _:
-                    print("Error: Ingreso una opcion no valida." )
-            print("Intente de nuevo.\n")
-            
+                    print("Error: Ingreso una opcion no valida.")
+                    print("Intente de nuevo.\n")
