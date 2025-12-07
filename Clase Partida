@@ -1,16 +1,15 @@
-from Torneo import *
-
 class Partida:
+    dia_k = int()
+    mes_k = int()
+    year_k = int()
+    hora_k = float()
+    contrincante1 = str()
+    contrincante2 = str()
+    estado = int()
+    resultado1 = float()
+    resultado2 = float()
 
-  dia_k = int()
-  mes_k = int()
-  year_k = int()
-  hora_k = float()
-  contricante = str()
-  contricante2 = str()
-  estado = int()
-  resultado = float()
-  """
+    """
     METODO CONSTRUCTOR
     este metodo no recibe parametros para crear una partida
     """
@@ -22,68 +21,60 @@ class Partida:
         self.contrincante1 = ""
         self.contrincante2 = ""
         self.estado = 0
-        self.resultado = 0.0
-        self.t = Torneo() 
+        self.resultado1 = 0.0
+        self.resultado2 = 0.0
 
-    def pedir_datos(self):
-        self.contrincante1 = input("Ingrese el nombre del primer contrincante: ")
-        self.contrincante2 = input("Ingrese el nombre del segundo contrincante: ")
-
-        print(f"Modalidad actual del torneo: {self.t.modalidad}")
     """
-    METODO CREAR_PARTIDA 
-    Permite crear una partida
+    METODO CREAR_PARTIDA
+    Permite registrar la fecha y hora de la partida
     """
-
     def crear_partida(self):
+        print("Registro de datos de la partida.")
         self.dia_k = int(input("Ingrese el día de la partida: "))
         self.mes_k = int(input("Ingrese el mes de la partida: "))
         self.year_k = int(input("Ingrese el año de la partida: "))
         self.hora_k = float(input("Ingrese la hora de la partida: "))
-
-        if self.t.modalidad == "1":
-            print("La partida es individual")
-        else:
-            print("La partida es por equipos")
-
         print("---------------------------")
-        print(f"El participante número 1 es: {self.contrincante1}")
-        print(f"El participante número 2 es: {self.contrincante2}")
-        print("---------------------------")
-     """
+
+    """
     METODO CAMBIAR_ESTADO
     permite cambiar el estado de una partida
     """
     def Cambiar_estado(self) -> None:
         while True:
             aux = input("Ingrese el estado de la partida \n 0.Pendiente \n 1.Jugada \n 2.Anulada: ")
-
             match aux:
                 case "0":
-                    self.estado = int(aux)
+                    self.estado = 0
                     print("Se ha modificado el estado de la partida: Pendiente")
+                    print("---------------------------")
                     break
                 case "1":
-                    self.estado = int(aux)
+                    self.estado = 1
                     print("Se ha modificado el estado de la partida: Jugada")
+                    print("---------------------------")
                     break
                 case "2":
-                    self.estado = int(aux)
-                    print("Se ha modificado el estado de la partida: Finalizada")
+                    self.estado = 2
+                    print("Se ha modificado el estado de la partida: Anulada")
+                    print("---------------------------")
                     break
                 case _:
                     print("Error: Ingreso una opción no válida.")
-            print("Intente de nuevo.\n")
-     """
+                    print("Intente de nuevo.\n")
+
+    """
     METODO REGISTRAR_RESULTADO
-    permite registrar un resultado
+    permite registrar un resultado cuando la partida ya fue jugada
     """
     def registrar_resultado(self):
         if self.estado == 1:
-            resultado1 = float(input("Ingrese puntaje del primer contrincante: "))
-            resultado2 = float(input("Ingrese puntaje del segundo contrincante: "))
-            return resultado1, resultado2
+            self.resultado1 = float(input("Ingrese puntaje del primer contrincante: "))
+            self.resultado2 = float(input("Ingrese puntaje del segundo contrincante: "))
+            print("---------------------------")
+            return self.resultado1, self.resultado2
         elif self.estado == 2:
-            print("La partida ya finalizó")
+            print("La partida fue anulada, no se registran resultados.")
         else:
             print("La partida sigue en estado pendiente")
+        return None
