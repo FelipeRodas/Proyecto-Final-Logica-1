@@ -1,7 +1,6 @@
 from datetime import date
 import os
 
-
 """
 En este archivo se guardaran y se haran las funciones auxiliares 
 que serviran como soporte para los metodos de las diferentes clases
@@ -15,6 +14,24 @@ Esta funcion no recibe parametros y su trabajo es limpiar la consola del usuario
 def limpiar_consola():
     comando = 'cls' if os.name == 'nt' else 'clear'
     os.system(comando)
+
+
+"""
+FUNCION LEER_ENTERO
+
+Esta funcion recibe un mensaje, pide un dato al usuario y verifica
+que sea un numero entero. Si el usuario ingresa un caracter no numerico
+se vuelve a pedir el dato sin que se corte la ejecucion.
+"""
+def leer_entero(mensaje):
+    valor = input(mensaje)
+    while not valor.isdigit():
+        print("Se ingreso un dato no valido")
+        print("---------------------------")
+        valor = input(mensaje)
+    return int(valor)
+
+
 """
 FUNCION VERIFICAR_FECHA_I
 
@@ -58,6 +75,8 @@ def Verificar_Inicio(dia, mes, año):
         return 4
     
     return 0
+
+
 """
 FUNCION VERIFICAR_FECHA_F
 
@@ -66,7 +85,6 @@ a la fecha de inicio y el dia,mes y año  de finalizacion para verificar que la 
 finalizacion sea una fecha valida y que la fecha de finalizacion no sea menor a la 
 fecha de inicio
 """
-     
 def Verificar_Final(dia_i, mes_i, año_i, dia, mes, año):
     diamax = 0
     hoy = date.today()
@@ -112,31 +130,27 @@ def Verificar_Final(dia_i, mes_i, año_i, dia, mes, año):
     return 0
 
 
-
 """
 FUNCION VERIFICAR_OPCION
 
-Esta funcion recibe 1 parametro de tipo entero que es la opcion 
+Esta funcion recibe 1 parametro de tipo string que es la opcion 
 de un menu de 3 opciones validas para verificar que al ingresar la opcion,
 se ingrese una opcion valida
 """
-
-def Verificacion_Opcion(opc) :
+def Verificacion_Opcion(opc):
     while (opc != "1" and opc != "2" and opc != "3" and opc != "0"):
         print("Se ingreso una opcion no valida")
         print("---------------------------")
         opc = input("Ingrese una opcion valida: ")
-          
     return opc
-        
+
+
 """
 FUNCION VERIFICAR_NACIMIENTO
 
 Esta funcion recibe 3 parametros dia, mes y año que son la fecha de 
 nacimento del usuario y lo que hace es verificar que dicha fecha sea valida
-
 """       
-    
 def Verificar_nacimiento(dia, mes, año):
     diamax = 0
     hoy = date.today()
@@ -173,8 +187,3 @@ def Verificar_nacimiento(dia, mes, año):
         return 4
     
     return 0
-    
-
-
-        
-      
