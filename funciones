@@ -138,7 +138,7 @@ de un menu de 3 opciones validas para verificar que al ingresar la opcion,
 se ingrese una opcion valida
 """
 def Verificacion_Opcion(opc):
-    while (opc != "1" and opc != "2" and opc != "3" and opc != "0"):
+    while (opc != "1" and opc != "2" and opc != "3" and opc != "0" and opc != "4"):
         print("Se ingreso una opcion no valida")
         print("---------------------------")
         opc = input("Ingrese una opcion valida: ")
@@ -187,3 +187,4 @@ def Verificar_nacimiento(dia, mes, año):
         return 4
     
     return 0
+    
