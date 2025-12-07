@@ -2,7 +2,7 @@ import numpy as np
 from Torneo import Torneo
 from Usuario import Usuario
 from Equipo import Equipo
-from funciones import*
+from funciones import *
 
 class Aplicacion:
     
@@ -22,7 +22,6 @@ class Aplicacion:
     ARCHIVO_TORNEOS =  "datos_torneos.npy"
     MAX_EQUIPOS = 20 
     ARCHIVO_EQUIPOS = "datos_equipos.npy"
-    
     
     
     def __init__(self):
@@ -68,7 +67,6 @@ class Aplicacion:
         self.equipos, self.cont_equipos = self.cargar_datos(self.ARCHIVO_EQUIPOS, self.MAX_EQUIPOS)
         
         
-            
     def cargar_datos(self, archivo, num_max_datos):
         """ Este método carga los datos de un archivo, en un arreglo específico
 
@@ -409,6 +407,7 @@ class Aplicacion:
                 print("Ingrese 1. para crear un Torneo")
                 print("Ingrese 2. para eleminar un Torneo")
                 print("Ingrese 3. para modificar el estado de un Torneo")
+                print("Ingrese 4. para ver resultados de un Torneo")
                 print("Ingrese 0. Si desea salir del sistema")
                 opc3 = input("Ingrese una opcion: ")
                 opc3 = Verificacion_Opcion(opc3)
@@ -455,9 +454,10 @@ class Aplicacion:
                             print("Ingrese 0 para MODIFICAR otro Torneo")
                             print("Ingrese Cualquier caracter diferente de (0) para Salir")
                             resp = input("Ingrese una opcion: ")
+                    
+                    case "4":
+                        self.ver_resultados_torneo()
                           
-                                
-                        
                     case "0":
                         print("GRACIAS POR USAR LA APLICACION.")
             
@@ -549,6 +549,7 @@ class Aplicacion:
                 print("Ingrese 1. para crear un Torneo")
                 print("Ingrese 2. para eleminar un Torneo")
                 print("Ingrese 3. para modificar el estado de un Torneo")
+                print("Ingrese 4. para ver resultados de un Torneo")
                 print("Ingrese 0. Si desea salir del sistema")
                 opc3 = input("Ingrese una opcion: ")
                 opc3 = Verificacion_Opcion(opc3)
@@ -594,6 +595,9 @@ class Aplicacion:
                             print("Ingrese 0 para MODIFICAR otro Torneo")
                             print("Ingrese Cualquier caracter diferente de (0) para Salir")
                             resp = input("Ingrese una opcion: ")
+                    
+                    case "4":
+                        self.ver_resultados_torneo()
                           
                     case "0":
                         print("GRACIAS POR USAR LA APLICACION.")
@@ -684,16 +688,36 @@ class Aplicacion:
                                             print("El torneo es de modalidad por equipos")
                                             equipo = input("Ingrese el nombre del equipo donde desea participar: ")
                                             bandera_equipo = False
+                                            pos_equipo = -1
+
                                             for m in range(self.cont_equipos):
-                                                if self.equipos[m] == equipo:
+                                                if self.equipos[m] is not None and self.equipos[m].nombre == equipo:
                                                     bandera_equipo = True
-                                            if bandera_equipo == True:
-                                                print("En proceso")
-                                                """
-                                                Como el equipo esta creado, se tiene que agregar el jugador al equipo y guardarlo
-                                                en el archivo de equipos
-                                                """
-                                                
+                                                    pos_equipo = m
+                                                    break
+
+                                            if bandera_equipo:
+           
+
+                                                for i2 in range(self.cont_usuarios):
+                                                    if self.usuarios[i2] == usuario:
+                                                        self.usuarios[i2].name_E = equipo
+                                                        break
+
+                                                cont_actual = 0
+                                                for j2 in range(len(self.equipos[pos_equipo].jugadores)):
+                                                    if self.equipos[pos_equipo].jugadores[j2] is not None:
+                                                        cont_actual += 1
+
+                                                cont_actual = self.equipos[pos_equipo].agregar_jugador(cont_actual)
+
+                                                if (not self.guardar_datos(self.equipos, self.ARCHIVO_EQUIPOS)):
+                                                    print("No se pudo guardar el archivo de equipos")
+                                                else:
+                                                    print("Se actualizó el archivo de equipos")
+                                                    print("Te has inscrito correctamente al Torneo por equipos:", self.torneos[j].nombre)
+
+                                                aux = 0
                                             else:
                                                 print("No hay ningun equipo con ese nombre")
                                                 print("¿Desea crear un equipo nuevo?")
@@ -703,12 +727,13 @@ class Aplicacion:
                                                 if opcion == "1":
                                                     equipo1 = Equipo()
                                                     equipo1.crear_equipo()
-                                                    equipo1.agregar_jugador()
-                                                    """
-                                                    Verificar Su funcionamiento y terminar
-                                                    """
-                                                       
-                                            aux = 0
+                                                    equipo1.jugadores = np.full((5), fill_value=None, dtype=object)
+                                                    cont_actual = 0
+                                                    cont_actual = equipo1.agregar_jugador(cont_actual)
+                                                    self.equipos[self.cont_equipos] = equipo1
+                                                    self.cont_equipos += 1
+                                                    self.guardar_datos(self.equipos, self.ARCHIVO_EQUIPOS)
+                                                aux = 0
                                         else: 
                                             print("Te has inscrito correctamente al Torneo:",self.torneos[j].nombre)
                                             self.guardar_datos(self.usuarios, self.ARCHIVO_USUARIOS)
@@ -753,7 +778,7 @@ class Aplicacion:
                                 self.usuarios[i].name_T[self.usuarios[i].cont_inscritos-1] = None 
                             
                                 # Actualizar contador
-                                self.usuarios[i].cont_inscritos-1
+                                self.usuarios[i].cont_inscritos = self.usuarios[i].cont_inscritos - 1
                                 print("Te has salido correctamente del Torneo")
                                 print("---------------------------")
                             
@@ -768,7 +793,7 @@ class Aplicacion:
                     opcion = input("Ingrese una opcion: ")
                     print("---------------------------")
                     print("---------------------------")
-                    
+                     
         
                 case "3":
                     print("Modificacion de datos.")
@@ -826,7 +851,7 @@ class Aplicacion:
                             for i in range(self.cont_usuarios):
                                 if self.usuarios[i] == usuario:
                                     pos = i
-                            self.usuarios[pos].nombre = nombre_cambio_cambio
+                            self.usuarios[pos].nombre = nombre_cambio
                             self.guardar_datos(self.usuarios, self.ARCHIVO_USUARIOS)
                             print("El nombre ha sido actualizado.")
                             print("1. Si desea continuar en el MENU")
@@ -844,7 +869,32 @@ class Aplicacion:
                 case "0":
                     print("GRACIAS POR USAR LA APLICACION.")
                     opcion = "0"
-                    
+
+    # NUEVO METODO SOLO DE CONSULTA DE RESULTADOS
+    def ver_resultados_torneo(self):
+        print("---LISTA DE TORNEOS---")
+        for i in range(self.cont_torneos):
+            if self.torneos[i] is not None:
+                print(i + 1, self.torneos[i].nombre)
+
+        nombre = input("Ingrese el nombre del torneo que desea consultar: ")
+
+        pos = -1
+        for i in range(self.cont_torneos):
+            if self.torneos[i] is not None and self.torneos[i].nombre == nombre:
+                pos = i
+                break
+
+        if pos == -1:
+            print("No existe un torneo con ese nombre")
+            return
+
+        print("Estado del torneo:", self.torneos[pos].estado)
+        print("Partidas registradas:")
+        for p in self.torneos[pos].partidas:
+            if p is not None:
+                print(p.contrincante1, "vs", p.contrincante2, "- estado:", p.estado, "- resultado:", p.resultado)
+    
     def Principal(self):
         resp = 0
         while(resp == 0):
@@ -915,12 +965,6 @@ class Aplicacion:
                     print("Gracias por usar el App Torneos")
                     resp = 1
                     
+
 mi_torneo = Aplicacion()
 mi_torneo.Principal()
-
-            
-
-    
-    
-    
-    
