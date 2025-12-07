@@ -12,22 +12,24 @@ class Usuario:
     dia_n = int()
     mes_n = int()
     year_n = int()
-    nickname = str()#Apodo unico para cada jugador
+    nickname = str()  # Apodo unico para cada jugador
     puntaje = int()
-    name_E = str()#Nombre del equipo al que pertenece
-    name_T = np.ndarray#Arreglo de Torneos en los que participa
+    name_E = str()  # Nombre del equipo al que pertenece
+    name_T = np.ndarray  # Arreglo de Torneos en los que participa
     cont_inscritos = int
     rol = int()
 
-    def __init__(self,rol,nickname = "",documento = "0",contra = ""):
+    def __init__(self, rol, nickname="", documento="0", contra=""):
         """
         METODO CONSTRUCTOR
-        
-        Parametro obligatorio: 
-        -Un entero que sera el rol del Usuario.
-        1.Administrador, 2.Organizador, 3. Jugador
+
+        Parametro obligatorio:
+        - Un entero que sera el rol del Usuario.
+          1.Administrador, 2.Organizador, 3. Jugador
+
         Parametros Opcionales:
-        -Tres strings que seran el nickname,el documento y la contraseña.
+        - Tres strings que seran el nickname,el documento y la contraseña.
+
         Este metodo no tiene Return.
         """
         self.rol = rol
@@ -43,20 +45,17 @@ class Usuario:
         self.name_E = ""
         self.name_T = np.full((5), fill_value=None, dtype=object)
         self.cont_inscritos = 0
-        
-   
-    def pedir_datos_jugador(self,nickname)-> None:
+
+    def pedir_datos_jugador(self, nickname) -> None:
         """
-    
-        Este metodo recibe como parametro obligatorio un string, que sera 
-        el nickname y su funcion es registrar los datos del jugador en sus 
-        respectivos atributos.
+        Este metodo recibe como parametro obligatorio un string, que sera el nickname
+        y su funcion es registrar los datos del jugador en sus respectivos atributos.
         Este metodo no tiene Return.
-        
         """
         self.nickname = nickname
         self.nombre = input("Ingrese el nombre del jugador: ")
         self.contra = input("Ingrese la clave para acceder al sistema: ")
+
         while True:
             self.documento = input("Ingrese el documento de identidad: ")
             if not self.documento.isdigit():
@@ -65,16 +64,21 @@ class Usuario:
                 print("---------------------------")
             else:
                 break
+
         self.correo = input("Ingrese el correo del jugador: ")
+
         while True:
-            dia_i = int(input("Ingrese el dia de nacimiento: "))
-            mes_i = int(input("Ingrese el mes de nacimiento: "))
-            año_i = int(input("Ingrese el año de nacimiento: "))
+            dia_i = leer_entero("Ingrese el dia de nacimiento: ")
+            mes_i = leer_entero("Ingrese el mes de nacimiento: ")
+            año_i = leer_entero("Ingrese el año de nacimiento: ")
             print("---------------------------")
             r = Verificar_nacimiento(dia_i, mes_i, año_i)
             match r:
                 case 0:
                     print("Fecha de nacimiento válida.")
+                    self.dia_n = dia_i
+                    self.mes_n = mes_i
+                    self.year_n = año_i
                     break
                 case 1:
                     print("Error: el año es posterior al actual.")
@@ -86,18 +90,16 @@ class Usuario:
                     print("Error: la fecha es posterior a hoy.")
             print("Intente de nuevo.\n")
             print("---------------------------")
-   
-    def pedir_datos_Organizador(self,nickname)->None:
+
+    def pedir_datos_Organizador(self, nickname) -> None:
         """
-        
-        Este metodo recibe como parametro obligatorio un string, que sera 
-        el nickname y su funcion es registrar los datos del organizador en sus 
-        respectivos atributos.
+        Este metodo recibe como parametro obligatorio un string, que sera el nickname
+        y su funcion es registrar los datos del organizador en sus respectivos atributos.
         Este metodo no tiene Return.
-        
         """
         self.nickname = nickname
         self.contra = input("Ingrese la clave para acceder al sistema: ")
+
         while True:
             self.documento = input("Ingrese el documento de identidad: ")
             if not self.documento.isdigit():
@@ -106,7 +108,5 @@ class Usuario:
                 print("---------------------------")
             else:
                 break
+
         self.correo = input("Ingrese el correo del jugador: ")
-        
-        
-        
